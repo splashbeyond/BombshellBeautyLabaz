@@ -1,0 +1,205 @@
+---
+/**
+ * ServiceCard — Moon Valley–style: circular image, centered serif title + body,
+ * LEARN MORE →. No price on card (detail page only).
+ */
+import type { Service } from '../../config/types';
+import { resolveIcon } from '../../config/icons';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const iconHtml = resolveIcon(service.icon);
+const hasImage = Boolean(service.image?.trim());
+---
+
+<a href={`/services/${service.slug}/`} class="service-card">
+  <div class="service-card__visual">
+    <div class="service-card__deco" aria-hidden="true">
+      <svg class="service-card__deco-svg" viewBox="0 0 240 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M30 72c18-28 48-52 88-58 32-5 62 8 82 28"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          opacity="0.35"></path>
+        <path
+          d="M120 18c-12 22-10 48 4 66M148 24c8 16 6 36-6 52M72 38c14 10 22 26 24 44"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          opacity="0.28"></path>
+        <circle cx="188" cy="38" r="2.5" fill="currentColor" opacity="0.2"></circle>
+        <circle cx="52" cy="48" r="2" fill="currentColor" opacity="0.18"></circle>
+      </svg>
+    </div>
+    <div class="service-card__media">
+      {
+        hasImage ? (
+          <img
+            class="service-card__img"
+            src={service.image}
+            alt=""
+            width="200"
+            height="200"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div class="service-card__img service-card__img--fallback" aria-hidden="true" set:html={iconHtml} />
+        )
+      }
+    </div>
+  </div>
+
+  <h3 class="service-card__title">{service.name}</h3>
+  <p class="service-card__desc">{service.shortDescription}</p>
+
+  <span class="service-card__cta">
+    Learn more
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7"></path>
+    </svg>
+  </span>
+</a>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding-block: 0.5rem 0.25rem;
+    padding-inline: 0.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      transform var(--motion-duration) var(--motion-easing),
+      opacity var(--motion-duration) var(--motion-easing);
+  }
+
+  .service-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+    text-decoration: none;
+    opacity: 0.98;
+  }
+
+  .service-card__visual {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.35rem;
+  }
+
+  .service-card__deco {
+    position: absolute;
+    top: -0.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100%, 260px);
+    height: 72px;
+    color: var(--color-primary);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  .service-card__deco-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .service-card__media {
+    position: relative;
+    z-index: 1;
+    width: min(200px, 72vw);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-surface-alt);
+    box-shadow:
+      0 8px 28px rgba(26, 16, 20, 0.08),
+      0 0 0 1px rgba(240, 226, 229, 0.9);
+  }
+
+  .service-card:hover .service-card__media {
+    box-shadow:
+      0 12px 36px rgba(194, 116, 138, 0.18),
+      0 0 0 1px rgba(194, 116, 138, 0.35);
+  }
+
+  .service-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .service-card__img--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+  }
+
+  .service-card__img--fallback :global(svg) {
+    width: 42%;
+    height: 42%;
+  }
+
+  .service-card__title {
+    margin: 0 0 0.65rem;
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 0.6vw + 1.05rem, 1.5rem);
+    font-weight: var(--type-weight-display);
+    line-height: var(--type-line-height-display);
+    letter-spacing: var(--type-letter-spacing-display);
+    color: var(--color-text);
+  }
+
+  .service-card__desc {
+    flex: 1;
+    margin: 0 0 1.35rem;
+    max-width: 34ch;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    letter-spacing: var(--type-letter-spacing-body);
+    color: var(--color-text-muted);
+  }
+
+  .service-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: auto;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: var(--type-weight-body-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .service-card:hover .service-card__cta {
+    color: var(--color-primary);
+  }
+
+  .service-card__cta svg {
+    flex-shrink: 0;
+    transition: transform var(--motion-duration) var(--motion-easing);
+  }
+
+  .service-card:hover .service-card__cta svg {
+    transform: translateX(3px);
+  }
+</style>

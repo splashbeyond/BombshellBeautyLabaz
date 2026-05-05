@@ -1,0 +1,108 @@
+---
+/**
+ * CTA — final call-to-action band. Catches visitors who scrolled without converting.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+interface Props {
+  /** Optional override; defaults to a generic conversion-focused message. */
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `Ready to schedule your visit?`,
+  description = `${siteConfig.business.name} is by appointment only — book online through our secure Square portal, or call us directly. Same-week openings are common.`,
+} = Astro.props;
+
+const primary = siteConfig.hero.primaryCta;
+const primaryHref = primary.href === 'tel:' ? `tel:${siteConfig.contact.phoneE164}` : primary.href;
+const primaryIsExternal = /^https?:\/\//.test(primaryHref);
+const primaryIsPhone = primaryHref.startsWith('tel:');
+---
+
+<section id="cta" class="cta-band">
+  <div class="container cta-band__inner reveal">
+    <div class="cta-band__copy">
+      <h2 class="text-balance">{title}</h2>
+      <p class="text-pretty">{description}</p>
+    </div>
+    <div class="cta-band__actions">
+      <a
+        href={primaryHref}
+        class="btn btn-primary btn-large"
+        {...(primaryIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        {primaryIsPhone ? (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        ) : (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        )}
+        {primary.label}
+      </a>
+      <a href={`tel:${siteConfig.contact.phoneE164}`} class="btn btn-secondary btn-large">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        Call {siteConfig.contact.phone}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    padding-block: clamp(4rem, 8vw, 6rem);
+    background:
+      radial-gradient(circle at 20% 0%, color-mix(in oklab, var(--color-primary) 12%, transparent), transparent 60%),
+      radial-gradient(circle at 80% 100%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 60%),
+      var(--color-surface);
+  }
+
+  .cta-band__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .cta-band__inner {
+      grid-template-columns: 1.4fr 1fr;
+      text-align: left;
+    }
+  }
+
+  .cta-band__copy h2 {
+    font-size: clamp(1.75rem, 3vw + 1rem, 2.75rem);
+    margin-bottom: 0.75rem;
+  }
+  .cta-band__copy p {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 56ch;
+  }
+  @media (min-width: 768px) {
+    .cta-band__copy p { margin-inline-start: 0; }
+  }
+
+  .cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .cta-band__actions { justify-content: flex-end; }
+  }
+</style>

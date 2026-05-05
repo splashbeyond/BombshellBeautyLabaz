@@ -1,0 +1,49 @@
+---
+/**
+ * Organization JSON-LD schema — drop on the About page.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const c = siteConfig;
+
+const sameAs = [
+  c.social.googleBusiness,
+  c.social.facebook,
+  c.social.instagram,
+  c.social.linkedin,
+  c.social.twitter,
+  c.social.youtube,
+  c.social.yelp,
+].filter((u): u is string => Boolean(u && u.length > 0));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${c.url}/#organization`,
+  name: c.business.name,
+  legalName: c.business.legalName,
+  url: c.url,
+  logo: new URL(c.business.logoUrl, c.url).toString(),
+  ...(c.business.foundedYear != null && { foundingDate: String(c.business.foundedYear) }),
+  description: c.business.description,
+  ...(sameAs.length > 0 && { sameAs }),
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: c.contact.phoneE164,
+      contactType: 'customer service',
+      email: c.contact.email,
+      areaServed: 'US',
+      availableLanguage: ['English'],
+    },
+  ],
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

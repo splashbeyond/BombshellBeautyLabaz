@@ -1,0 +1,377 @@
+---
+/**
+ * Results — before/after gallery driven by config (`results.items`).
+ * Items with `images[]` render an in-card carousel; `imageSrc` is a single image.
+ */
+import type { ResultItem } from '../../config/types';
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+const { eyebrow, title, lede, items } = siteConfig.results;
+
+function resultSlides(item: ResultItem): { src: string; alt: string }[] {
+  const n = item.images?.length ?? 0;
+  if (n > 0) {
+    return item.images!.map((src, i) => ({
+      src,
+      alt: item.imageAlts?.[i] ?? `${item.alt} (photo ${i + 1} of ${n})`,
+    }));
+  }
+  if (item.imageSrc) {
+    return [{ src: item.imageSrc, alt: item.alt }];
+  }
+  return [];
+}
+---
+
+<section id="results" class="section section-alt">
+  <div class="container">
+    <header class="section__header reveal">
+      <span class="eyebrow">{eyebrow}</span>
+      <h2>{title}</h2>
+      <p class="section__lede text-muted text-pretty">{lede}</p>
+    </header>
+
+    <div class="results-grid">
+      {
+        items.map((item, i) => {
+          const slides = resultSlides(item);
+          if (slides.length === 0) return null;
+          const isCarousel = slides.length > 1;
+          return (
+            <figure class="result-card reveal" style={`transition-delay: ${i * 80}ms`}>
+              <div class:list={['result-card__media', { 'result-card__media--carousel': isCarousel }]}>
+                {isCarousel ? (
+                  <div class="result-carousel" data-result-carousel aria-roledescription="carousel">
+                    <div class="result-carousel__viewport">
+                      <div class="result-carousel__track" data-carousel-track>
+                        {slides.map((s, j) => (
+                          <div
+                            class="result-carousel__slide"
+                            data-carousel-slide
+                            aria-hidden={j !== 0 ? 'true' : 'false'}
+                          >
+                            <img
+                              src={s.src}
+                              alt={s.alt}
+                              width={900}
+                              height={900}
+                              loading={i === 0 && j === 0 ? 'eager' : 'lazy'}
+                              decoding="async"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div class="result-carousel__nav" role="group" aria-label="Photo navigation">
+                      <button
+                        type="button"
+                        class="result-carousel__arrow result-carousel__arrow--prev"
+                        aria-label="Previous photo"
+                        data-carousel-prev
+                      >
+                        <span aria-hidden="true">‹</span>
+                      </button>
+                      <button
+                        type="button"
+                        class="result-carousel__arrow result-carousel__arrow--next"
+                        aria-label="Next photo"
+                        data-carousel-next
+                      >
+                        <span aria-hidden="true">›</span>
+                      </button>
+                    </div>
+                    <div class="result-carousel__dots" role="tablist" aria-label="Photos">
+                      {slides.map((_, j) => (
+                        <button
+                          type="button"
+                          role="tab"
+                          class:list={['result-carousel__dot', { 'is-active': j === 0 }]}
+                          aria-selected={j === 0 ? 'true' : 'false'}
+                          aria-label={`Photo ${j + 1} of ${slides.length}`}
+                          data-carousel-dot={j}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={slides[0].src}
+                    alt={slides[0].alt}
+                    width={900}
+                    height={900}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                )}
+              </div>
+              <figcaption class="result-card__caption">
+                {item.title && <h3>{item.title}</h3>}
+                <p class="text-muted">{item.description}</p>
+                {item.benefits && item.benefits.length > 0 && (
+                  <div class="result-card__benefits">
+                    <p class="result-card__benefits-heading">{item.benefitsHeading ?? 'Helps with'}</p>
+                    <ul>
+                      {item.benefits.map((line) => (
+                        <li>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </figcaption>
+            </figure>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function initResultCarousels() {
+    document.querySelectorAll('[data-result-carousel]').forEach((root) => {
+      if (root.dataset.carouselBound) return;
+      root.dataset.carouselBound = '1';
+      const track = root.querySelector('[data-carousel-track]');
+      const slides = root.querySelectorAll('[data-carousel-slide]');
+      const dots = root.querySelectorAll('[data-carousel-dot]');
+      const prev = root.querySelector('[data-carousel-prev]');
+      const next = root.querySelector('[data-carousel-next]');
+      if (!track || slides.length === 0) return;
+      const n = slides.length;
+      let index = 0;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function go(i) {
+        index = (i + n) % n;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        slides.forEach((s, j) => s.setAttribute('aria-hidden', j !== index ? 'true' : 'false'));
+        dots.forEach((d, j) => {
+          d.classList.toggle('is-active', j === index);
+          d.setAttribute('aria-selected', j === index ? 'true' : 'false');
+        });
+      }
+
+      prev?.addEventListener('click', () => go(index - 1));
+      next?.addEventListener('click', () => go(index + 1));
+      dots.forEach((d, j) => d.addEventListener('click', () => go(j)));
+
+      track.style.transition = reduced ? 'none' : 'transform 0.38s ease';
+    });
+  }
+
+  initResultCarousels();
+  document.addEventListener('astro:page-load', initResultCarousels);
+</script>
+
+<style>
+  .section__header {
+    max-width: 640px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .section__header h2 {
+    margin-block: 0.75rem 1rem;
+  }
+  .section__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+  @media (min-width: 768px) {
+    .results-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      max-width: none;
+      gap: 2rem;
+    }
+  }
+  @media (min-width: 1100px) {
+    .results-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+  }
+
+  .result-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .result-card__media {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    aspect-ratio: 1;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  }
+  .result-card__media:not(.result-card__media--carousel) img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .result-card__media--carousel {
+    position: relative;
+  }
+
+  .result-carousel {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+  }
+
+  .result-carousel__viewport {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .result-carousel__track {
+    display: flex;
+    height: 100%;
+    will-change: transform;
+  }
+
+  .result-carousel__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .result-carousel__slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .result-carousel__nav {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.35rem;
+  }
+
+  .result-carousel__arrow {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-text);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    transition:
+      background 0.15s ease,
+      transform 0.15s ease;
+  }
+  .result-carousel__arrow:hover {
+    background: #fff;
+    transform: scale(1.04);
+  }
+  .result-carousel__arrow:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .result-carousel__dots {
+    position: absolute;
+    left: 50%;
+    bottom: 0.65rem;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .result-carousel__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+    cursor: pointer;
+    opacity: 0.45;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      background 0.15s ease;
+  }
+  .result-carousel__dot.is-active {
+    opacity: 1;
+    background: var(--color-primary);
+    transform: scale(1.15);
+  }
+  .result-carousel__dot:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .result-card__caption {
+    text-align: center;
+  }
+  .result-card__caption h3 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+  .result-card__caption p {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .result-card__benefits {
+    margin-top: 1rem;
+    text-align: left;
+    max-width: 280px;
+    margin-inline: auto;
+  }
+  .result-card__benefits-heading {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+  }
+  .result-card__benefits ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+  .result-card__benefits li {
+    margin-bottom: 0.25rem;
+  }
+  .result-card__benefits li:last-child {
+    margin-bottom: 0;
+  }
+</style>

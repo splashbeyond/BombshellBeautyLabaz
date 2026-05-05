@@ -1,0 +1,63 @@
+---
+/**
+ * Services index page.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceCard from '../../components/sections/ServiceCard.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services/' },
+];
+
+const title = `Our Services in ${siteConfig.serviceArea.primaryCity}`;
+const description = `Full-service ${siteConfig.business.industry.toLowerCase()} in ${siteConfig.serviceArea.primaryCity}, ${siteConfig.serviceArea.primaryRegion}. ${siteConfig.business.description.split('.')[0]}.`;
+---
+
+<BaseLayout title="Services" description={description}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="services-hero section-hero">
+    <div class="container container-narrow text-center">
+      <span class="eyebrow">Our Services</span>
+      <h1 class="text-balance">{title}</h1>
+      <p class="services-hero__lede text-muted text-pretty">{description}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="services-list services-grid--tiles">
+        {siteConfig.services.map((service) => (
+          <div class="services-grid__cell">
+            <ServiceCard service={service} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    title="Not sure which service you need?"
+    description="Call our team for a free 5-minute consultation. We'll point you in the right direction — no pressure, no upsell."
+  />
+</BaseLayout>
+
+<style>
+  .services-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .services-hero__lede {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+/**
+ * Review/AggregateRating schema for testimonial sections.
+ * Generates star snippets in Google search results.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+import type { Testimonial } from '../../config/types';
+
+interface Props {
+  testimonials: Testimonial[];
+}
+
+const { testimonials } = Astro.props;
+const c = siteConfig;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': c.business.schemaType,
+  '@id': `${c.url}/#localbusiness`,
+  name: c.business.name,
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: c.trust.rating,
+    reviewCount: c.trust.reviewCount,
+    bestRating: '5',
+    worstRating: '1',
+  },
+  review: testimonials.map((t) => ({
+    '@type': 'Review',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: t.rating,
+      bestRating: '5',
+      worstRating: '1',
+    },
+    author: { '@type': 'Person', name: t.name },
+    datePublished: t.date,
+    reviewBody: t.quote,
+    ...(t.service && { itemReviewed: { '@type': 'Service', name: t.service } }),
+  })),
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

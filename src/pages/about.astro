@@ -1,0 +1,73 @@
+---
+/**
+ * About page — team, story, credentials.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import OrganizationSchema from '../components/seo/OrganizationSchema.astro';
+import CTA from '../components/sections/CTA.astro';
+import MeetOwner from '../components/sections/MeetOwner.astro';
+import { getSiteConfig } from '../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const c = siteConfig;
+const aboutHeroTitle = c.business.footerTagline ?? c.business.tagline;
+const aboutHeroLede = c.business.aboutHeroLede ?? c.business.description;
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about/' },
+];
+---
+
+<BaseLayout
+  title="About Beautiful You"
+  description={`Meet Odilette Trevizo at ${c.business.name} in ${c.serviceArea.primaryCity}, ${c.contact.address.state} — personalized aesthetic care by appointment.`}
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <OrganizationSchema />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="about-hero section-hero">
+    <div class="container container-narrow text-center">
+      <span class="eyebrow">About {c.business.name}</span>
+      <h1 class="text-balance">{aboutHeroTitle}</h1>
+      <p class="about-hero__lede text-muted text-pretty">{aboutHeroLede}</p>
+    </div>
+  </section>
+
+  <MeetOwner hideAboutLink />
+
+  <section class="section">
+    <div class="container container-narrow">
+      <h2>How a visit works</h2>
+      <p class="text-muted">
+        New patients are encouraged to start with a $50 consultation (15 minutes) to discuss goals,
+        review medical history, and build a personalized treatment plan. Returning patients can book
+        any service directly through our Square online portal. Sculptra and PDO Threads require a
+        deposit ($400 / $300 respectively, via Zelle to 602-510-3948) since materials are ordered
+        specifically for each appointment.
+      </p>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>
+
+<style>
+  .about-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .about-hero__lede {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .container-narrow h2 { margin-block: 2.5rem 1rem; }
+  .container-narrow h2:first-child { margin-top: 0; }
+  .container-narrow p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; }
+  .container-narrow p + p { margin-top: 1rem; }
+</style>

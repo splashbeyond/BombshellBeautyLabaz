@@ -1,0 +1,214 @@
+---
+/**
+ * MeetOwner — founder portrait + bio. Portrait sits under credentials/role, before the lead.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+interface Props {
+  /** When true, omits the “Full studio story” link (use on /about/). */
+  hideAboutLink?: boolean;
+}
+
+const { hideAboutLink = false } = Astro.props;
+
+const c = siteConfig;
+const o = c.owner;
+const primary = c.hero.primaryCta;
+const primaryHref = primary.href === 'tel:' ? `tel:${c.contact.phoneE164}` : primary.href;
+const primaryExternal = /^https?:\/\//.test(primaryHref);
+---
+
+<section
+  id="meet-odi"
+  class="meet-owner section section-alt"
+  aria-labelledby="meet-odi-heading"
+>
+  <div class="container">
+    <div class="meet-owner__grid">
+      <div class="meet-owner__copy">
+        <header class="meet-owner__header">
+          <span class="eyebrow">Your injector</span>
+          <h2 id="meet-odi-heading" class="text-balance">Meet {o.preferredName}</h2>
+          <p class="meet-owner__subtitle">
+            {o.fullName}, <span class="meet-owner__creds-inline">{o.credentials}</span>
+          </p>
+          <p class="meet-owner__role">{o.roleTitle}</p>
+        </header>
+
+        <figure class="meet-owner__figure">
+          <div class="meet-owner__figure-inner">
+            <img
+              src={o.photoUrl}
+              alt={o.photoAlt}
+              width="720"
+              height="900"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </figure>
+
+        <p class="meet-owner__lead">{o.intro}</p>
+        {o.bioParagraphs.map((paragraph) => (
+          <p class="meet-owner__bio text-muted">{paragraph}</p>
+        ))}
+
+        <h3 class="meet-owner__list-title">Credentials &amp; training</h3>
+        <ul class="meet-owner__list">
+          <li>{c.trust.license.label}</li>
+          {c.trust.certifications.map((cert) => (
+            <li>{cert.name}</li>
+          ))}
+          <li>Fully insured · Arizona Board of Nursing</li>
+          <li>Cherry financing available</li>
+          {c.social.instagram && (
+            <li>
+              <a href={c.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+              {' · '}day-to-day at the studio
+            </li>
+          )}
+        </ul>
+
+        <div class="meet-owner__actions">
+          <a
+            href={primaryHref}
+            class="btn btn-primary btn-large"
+            {...(primaryExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            Book with {o.preferredName}
+          </a>
+          <a href={`tel:${c.contact.phoneE164}`} class="btn btn-secondary btn-large">
+            Call {c.contact.phone}
+          </a>
+          {!hideAboutLink && (
+            <a href="/about/" class="btn btn-secondary btn-large meet-owner__about-link">
+              Full studio story
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .meet-owner__grid {
+    display: block;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .meet-owner__figure {
+    margin: 0 auto 1.25rem;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .meet-owner__figure-inner {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    aspect-ratio: 4 / 5;
+    max-height: min(72vh, 520px);
+  }
+  .meet-owner__figure-inner img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .meet-owner__copy {
+    min-width: 0;
+  }
+
+  .meet-owner__header {
+    text-align: left;
+    margin-bottom: 1.25rem;
+  }
+  .meet-owner__header .eyebrow {
+    margin-bottom: 0.5rem;
+  }
+  .meet-owner__header h2 {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+  }
+  .meet-owner__subtitle {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+    font-size: 1.125rem;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+  .meet-owner__creds-inline {
+    color: var(--color-primary);
+    font-weight: var(--type-weight-body-bold);
+  }
+  .meet-owner__role {
+    margin: 0.25rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .meet-owner__lead {
+    margin: 0 0 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-text);
+    max-width: 58ch;
+  }
+  .meet-owner__bio {
+    margin: 0 0 0.85rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 58ch;
+  }
+  .meet-owner__bio:last-of-type {
+    margin-bottom: 1.25rem;
+  }
+
+  .meet-owner__list-title {
+    font-size: 1.0625rem;
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+  }
+  .meet-owner__list {
+    margin: 0 0 1.5rem;
+    padding-left: 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    max-width: 58ch;
+  }
+  .meet-owner__list a {
+    font-weight: var(--type-weight-body-bold);
+  }
+
+  .meet-owner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .meet-owner__about-link {
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--color-text);
+    box-shadow: none;
+  }
+  .meet-owner__about-link:hover {
+    background-color: var(--color-surface-alt);
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+  }
+</style>

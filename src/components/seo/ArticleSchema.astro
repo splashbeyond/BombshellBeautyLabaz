@@ -1,0 +1,62 @@
+---
+/**
+ * Article JSON-LD schema for blog posts.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  datePublished: string;
+  dateModified?: string;
+  author?: string;
+  slug: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  datePublished,
+  dateModified = datePublished,
+  author = siteConfig.business.name,
+  slug,
+} = Astro.props;
+
+const c = siteConfig;
+const articleUrl = `${c.url}/blog/${slug}/`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${articleUrl}#article`,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+  headline: title,
+  description,
+  ...(image && { image: new URL(image, c.url).toString() }),
+  datePublished,
+  dateModified,
+  author: {
+    '@type': 'Person',
+    name: author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${c.url}/#organization`,
+    name: c.business.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL(c.business.logoUrl, c.url).toString(),
+    },
+  },
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

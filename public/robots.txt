@@ -1,0 +1,15 @@
+# robots.txt — see https://developers.google.com/search/docs/crawling-indexing/robots/intro
+
+User-agent: *
+Allow: /
+Disallow: /thank-you/
+Disallow: /search/
+Disallow: /preview/
+
+# IMPORTANT: We explicitly do NOT block AI crawlers.
+# Per 2026 SEO research: blocking GPTBot/ClaudeBot/GoogleExtended prevents
+# AI Overviews indexing — a major ranking opportunity for service businesses.
+# Source: 2026 SEO research brief shipped with this template.
+
+# Sitemap location
+Sitemap: https://acmecorp.com/sitemap-index.xml

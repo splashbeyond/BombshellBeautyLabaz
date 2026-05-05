@@ -1,0 +1,719 @@
+---
+/**
+ * Full-bleed homepage hero carousel — Moon Valley–style:
+ * services ribbon (caps) → script brand or service name → location → optional autoplay.
+ * Glam theme loads Sacramento for the hero script line.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+import { starsHtml } from '../../config/icons';
+
+const c = getSiteConfig(Astro.locals.siteVariant);
+const hc = c.heroCarousel!;
+const intro = hc.introSlide;
+
+const unifiedSlides =
+  intro != null
+    ? [
+        { kind: 'intro' as const, image: intro.image, tagline: intro.tagline ?? '' },
+        ...hc.slides.map((s) => ({
+          kind: 'service' as const,
+          title: s.title,
+          slug: s.slug,
+          image: s.image,
+          tagline: s.tagline ?? '',
+        })),
+      ]
+    : hc.slides.map((s) => ({
+        kind: 'service' as const,
+        title: s.title,
+        slug: s.slug,
+        image: s.image,
+        tagline: s.tagline ?? '',
+      }));
+
+const firstSlide = unifiedSlides[0]!;
+const startWithIntro = firstSlide.kind === 'intro';
+
+const initialTagline = startWithIntro
+  ? intro?.tagline?.trim()
+    ? intro.tagline
+    : '\u00A0'
+  : hc.slides[0]?.tagline?.trim()
+    ? hc.slides[0].tagline
+    : '\u00A0';
+
+const phoneHref =
+  c.hero.primaryCta.href === 'tel:' ? `tel:${c.contact.phoneE164}` : c.hero.primaryCta.href;
+const isPhoneCta = phoneHref.startsWith('tel:');
+const isExternalCta = /^https?:\/\//.test(phoneHref);
+const heroStars = starsHtml(Math.round(c.trust.rating));
+---
+
+<section
+  class="hero-car"
+  aria-roledescription="carousel"
+  aria-label="Featured treatments at Beautiful You Med Spa"
+  data-autoplay-ms={hc.autoplayMs ?? 0}
+>
+  <div class="hero-car__viewport">
+    {
+      unifiedSlides.map((slide, i) => (
+        <div
+          class:list={['hero-car__bg-slide', { 'is-active': i === 0 }]}
+          data-slide-index={i}
+          aria-hidden={i === 0 ? 'false' : 'true'}
+        >
+          <img
+            src={slide.image}
+            alt=""
+            class="hero-car__bg-img"
+            width="1920"
+            height="1080"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+            decoding="async"
+          />
+        </div>
+      ))
+    }
+    <div class="hero-car__scrim" aria-hidden="true"></div>
+
+    <div class="hero-car__content container">
+      <h1 class="sr-only">{hc.brandLine}</h1>
+
+      <div class="hero-car__upper">
+        <div class="hero-car__title-stack">
+          <p class="hero-car__ribbon" data-hero-car-ribbon>{hc.serviceRibbon}</p>
+
+          <div class="hero-car__focus hero-car__focus--anim" id="hero-car-focus" aria-live="polite">
+            <p class="hero-car__script-main" data-field="script-main">
+              {startWithIntro ? hc.brandLine : hc.slides[0].title}
+            </p>
+          </div>
+
+          <small class="hero-car__tagline" data-field="tagline">{initialTagline}</small>
+
+          <p class="hero-car__location" data-hero-car-location>{hc.locationLine}</p>
+
+          <a
+            class="hero-car__service-cta"
+            data-field="href"
+            href={startWithIntro ? '/services/' : `/services/${hc.slides[0].slug}/`}
+          >
+            {startWithIntro ? 'Explore all services' : `View ${hc.slides[0].title.split(',')[0].split('&')[0].trim()}`}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-car__lower">
+      <div class="hero-car__cta-row">
+        <a
+          href={phoneHref}
+          class="btn btn-primary btn-large hero-car__btn-primary"
+          data-cta="hero-primary"
+          {...(isExternalCta ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {isPhoneCta ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          )}
+          {c.hero.primaryCta.label === 'Call Now'
+            ? `${c.hero.primaryCta.label}: ${c.contact.phone}`
+            : c.hero.primaryCta.label}
+        </a>
+        {
+          c.hero.secondaryCta && (
+            <a
+              href={
+                c.hero.secondaryCta.href === 'tel:' ? `tel:${c.contact.phoneE164}` : c.hero.secondaryCta.href
+              }
+              class="btn btn-secondary btn-large"
+              data-cta="hero-secondary"
+            >
+              {c.hero.secondaryCta.label}
+            </a>
+          )
+        }
+      </div>
+
+      <div class="hero-car__signals">
+        <div class="hero-car__signal hero-car__signal--stars">
+          <span class="stars" aria-label="Five star rating" set:html={heroStars} />
+        </div>
+        <span class="hero-car__signal-dot" aria-hidden="true"></span>
+        <div class="hero-car__signal">{c.trust.license.label}</div>
+      </div>
+
+      <div class="hero-car__dots" role="tablist" aria-label="Slide indicators">
+        {
+          unifiedSlides.map((_, i) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={['hero-car__dot', { 'is-active': i === 0 }]}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-label={`Slide ${i + 1} of ${unifiedSlides.length}`}
+              data-hero-car-dot={i}
+            />
+          ))
+        }
+      </div>
+      </div>
+    </div>
+
+    <div class="hero-car__nav" role="group" aria-label="Carousel navigation">
+      <button type="button" class="hero-car__arrow hero-car__arrow--prev" aria-label="Previous slide" data-hero-car-prev>
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button type="button" class="hero-car__arrow hero-car__arrow--next" aria-label="Next slide" data-hero-car-next>
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script
+  define:vars={{
+    slidesJson: JSON.stringify(unifiedSlides),
+    autoplayMs: hc.autoplayMs ?? 0,
+    brandLineStr: hc.brandLine,
+  }}
+>
+  const slides = JSON.parse(slidesJson);
+  const root = document.querySelector('.hero-car');
+  if (!root || slides.length === 0) return;
+
+  const bgSlides = root.querySelectorAll('.hero-car__bg-slide');
+  const focusEl = document.getElementById('hero-car-focus');
+  const scriptMainEl = focusEl?.querySelector('[data-field="script-main"]');
+  const taglineEl = root.querySelector('[data-field="tagline"]');
+  const ctaEl = root.querySelector('[data-field="href"]');
+  const ribbonEl = root.querySelector('[data-hero-car-ribbon]');
+  const locationEl = root.querySelector('[data-hero-car-location]');
+  const prevBtn = root.querySelector('[data-hero-car-prev]');
+  const nextBtn = root.querySelector('[data-hero-car-next]');
+  const dots = root.querySelectorAll('[data-hero-car-dot]');
+
+  let index = 0;
+  let timer = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function shortLabel(title) {
+    const t = title.split(',')[0].split('&')[0].trim();
+    return `View ${t}`;
+  }
+
+  function go(delta) {
+    const next = (index + delta + slides.length) % slides.length;
+    show(next);
+  }
+
+  function show(nextIndex) {
+    index = nextIndex;
+    const s = slides[index];
+
+    bgSlides.forEach((el, i) => {
+      const on = i === index;
+      el.classList.toggle('is-active', on);
+      el.setAttribute('aria-hidden', on ? 'false' : 'true');
+    });
+
+    dots.forEach((d, i) => {
+      const on = i === index;
+      d.classList.toggle('is-active', on);
+      d.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
+    if (s.kind === 'intro') {
+      if (scriptMainEl) scriptMainEl.textContent = brandLineStr;
+      if (taglineEl) taglineEl.textContent = s.tagline?.trim() ? s.tagline : '\u00A0';
+      if (ctaEl) {
+        ctaEl.setAttribute('href', '/services/');
+        ctaEl.textContent = 'Explore all services';
+      }
+    } else {
+      if (scriptMainEl) scriptMainEl.textContent = s.title;
+      if (taglineEl) taglineEl.textContent = s.tagline?.trim() ? s.tagline : '\u00A0';
+      if (ctaEl) {
+        ctaEl.setAttribute('href', `/services/${s.slug}/`);
+        ctaEl.textContent = shortLabel(s.title);
+      }
+    }
+
+    const onFirstSlide = nextIndex === 0;
+    ribbonEl?.classList.toggle('hero-car__meta--hidden', !onFirstSlide);
+    ribbonEl?.setAttribute('aria-hidden', onFirstSlide ? 'false' : 'true');
+    locationEl?.classList.toggle('hero-car__meta--hidden', !onFirstSlide);
+    locationEl?.setAttribute('aria-hidden', onFirstSlide ? 'false' : 'true');
+
+    if (focusEl && !reducedMotion) {
+      focusEl.classList.remove('hero-car__focus--anim');
+      void focusEl.offsetWidth;
+      focusEl.classList.add('hero-car__focus--anim');
+    }
+
+    resetTimer();
+  }
+
+  function resetTimer() {
+    if (timer) clearInterval(timer);
+    const ap = Number(root.getAttribute('data-autoplay-ms')) || 0;
+    if (ap > 0 && !reducedMotion) {
+      timer = window.setInterval(() => go(1), ap);
+    }
+  }
+
+  prevBtn?.addEventListener('click', () => go(-1));
+  nextBtn?.addEventListener('click', () => go(1));
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const i = Number(dot.getAttribute('data-hero-car-dot'));
+      if (!Number.isNaN(i)) show(i);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if (e.key === 'ArrowLeft') go(-1);
+    if (e.key === 'ArrowRight') go(1);
+  });
+
+  resetTimer();
+</script>
+
+<style>
+  .hero-car {
+    position: relative;
+    padding-block: 0;
+    margin-inline: calc(50% - 50vw);
+    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
+    background: var(--color-text);
+    /* Fixed block size so slide changes never grow/shrink the hero or shift content below. */
+    height: min(88vh, 920px);
+    min-height: min(88vh, 920px);
+    max-height: min(88vh, 920px);
+    box-sizing: border-box;
+  }
+
+  .hero-car__viewport {
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    .hero-car {
+      height: min(92vh, 840px);
+      min-height: min(92vh, 840px);
+      max-height: min(92vh, 840px);
+    }
+  }
+
+  .hero-car__bg-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.05s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .hero-car__bg-slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-car__bg-slide {
+      transition: opacity 0.35s ease;
+    }
+  }
+
+  .hero-car__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 28%;
+  }
+
+  .hero-car__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 16, 20, 0.5) 0%,
+      rgba(26, 16, 20, 0.35) 35%,
+      rgba(26, 16, 20, 0.55) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hero-car__content {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: clamp(2.25rem, 5vw, 4rem) clamp(1.25rem, 3vw, 2.25rem);
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+  }
+
+  /**
+   * Title / ribbon / tagline — shrinks when vertical space is tight so the lower
+   * block (CTAs, stars, dots) never leaves the hero.
+   */
+  .hero-car__upper {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /** CTAs + trust + pagination — fixed footprint at bottom of hero content */
+  .hero-car__lower {
+    flex: 0 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /**
+   * Global `p { color: var(--color-text) }` overrides parent `color` — force white on hero
+   * paragraphs (all slides share this DOM). Do not target generic `span` (stars use `.stars`).
+   */
+  .hero-car__content p {
+    color: #fff;
+  }
+
+  .hero-car__content small.hero-car__tagline {
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .hero-car__title-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: min(56rem, 100%);
+    margin: 0 auto;
+    flex-shrink: 1;
+    min-height: 0;
+  }
+
+  .hero-car__tagline {
+    display: block;
+    width: 100%;
+    max-width: 40rem;
+    margin: 0 0 0.75rem;
+    min-height: 2.5em;
+    font-family: var(--font-body);
+    font-size: clamp(0.8125rem, 0.45vw + 0.72rem, 0.9375rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.45),
+      0 2px 10px rgba(0, 0, 0, 0.28);
+  }
+
+  /**
+   * Hide ribbon/location on slides 2+ without collapsing layout — otherwise the script
+   * headline jumps up when those rows disappear (`display:none` removed them from flow).
+   */
+  .hero-car__meta--hidden {
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-car__ribbon {
+    margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+    font-family: var(--font-body);
+    font-size: clamp(0.48rem, 0.45vw + 0.36rem, 0.625rem);
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    max-width: 56rem;
+    color: #fff;
+    opacity: 0.96;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.55),
+      0 2px 16px rgba(0, 0, 0, 0.4);
+    animation: heroCarRibbon 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+  }
+
+  .hero-car__focus {
+    max-width: min(56rem, 100%);
+    width: 100%;
+    /* Uniform air below script headline (descenders + gap before tagline) — same all slides */
+    margin: 0 0 clamp(0.65rem, 1.5vw, 1rem);
+    min-height: 0;
+    /* Room for Sacramento descenders (p, y, g) + line-clamp padding; scales with viewport */
+    max-height: min(46vmin, 14rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    padding-block: 0.15em 0.35em;
+    box-sizing: border-box;
+  }
+
+  .hero-car__focus--anim .hero-car__script-main {
+    animation: heroCarScript 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-car__ribbon,
+    .hero-car__focus--anim .hero-car__script-main {
+      animation: none !important;
+    }
+  }
+
+  .hero-car__script-main {
+    margin: 0;
+    font-family: Sacramento, cursive;
+    /* Cap max size so long service names still leave room for CTAs + stars in fixed hero */
+    font-size: clamp(1.875rem, 2.75vw + 1rem, 3.35rem);
+    font-weight: 400;
+    /* Slightly loose so script ascenders/descenders aren’t clipped by tight metrics */
+    line-height: 1.22;
+    letter-spacing: 0.03em;
+    color: #fff;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    hyphens: manual;
+    /* Reserve space below last line for descenders inside the line-clamp box */
+    padding-bottom: 0.2em;
+    box-sizing: border-box;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .hero-car__location {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-body);
+    font-size: clamp(0.9375rem, 0.55vw + 0.85rem, 1.0625rem);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #fff;
+    opacity: 0.94;
+    text-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.55),
+      0 2px 14px rgba(0, 0, 0, 0.38);
+    animation: heroCarRibbon 1s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+  }
+
+  .hero-car__service-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity var(--motion-duration) var(--motion-easing);
+  }
+
+  .hero-car__service-cta:hover {
+    opacity: 0.85;
+  }
+
+  .hero-car__cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .hero-car__btn-primary.btn-primary {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .hero-car .btn-secondary {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .hero-car .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-car__signals {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0;
+    font-size: 0.875rem;
+    color: #fff;
+  }
+
+  .hero-car__signals span:not(.stars),
+  .hero-car__signals strong {
+    color: inherit;
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.45),
+      0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-car__signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .hero-car__signal--stars .stars {
+    color: var(--color-star);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  }
+
+  .hero-car__signal strong {
+    color: #fff;
+  }
+
+  .hero-car__signal-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  .hero-car__nav {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    padding-inline: clamp(0.5rem, 2vw, 1.25rem);
+  }
+
+  .hero-car__arrow {
+    pointer-events: auto;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .hero-car__arrow:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .hero-car__arrow:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  /** In document flow below trust row — avoids covering stars / license line */
+  .hero-car__dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding: 0;
+    width: 100%;
+    max-width: min(56rem, 100%);
+  }
+
+  .hero-car__dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .hero-car__dot.is-active {
+    background: #fff;
+    transform: scale(1.15);
+  }
+
+  .hero-car__dot:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  @keyframes heroCarRibbon {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes heroCarScript {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+</style>

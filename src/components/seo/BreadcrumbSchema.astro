@@ -1,0 +1,38 @@
+---
+/**
+ * BreadcrumbList JSON-LD schema. Drop on every non-homepage page that has
+ * a visible breadcrumb trail.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+export interface BreadcrumbItem {
+  name: string;
+  /** Path relative to siteConfig.url, including leading slash and trailing slash. */
+  href: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    name: item.name,
+    item: new URL(item.href, siteConfig.url).toString(),
+  })),
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

@@ -1,0 +1,128 @@
+---
+/**
+ * ServiceArea — single studio location, address, directions, embedded map.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+const c = siteConfig;
+const a = c.contact.address;
+const addressLine = `${a.street}, ${a.city}, ${a.state} ${a.zip}`;
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine)}`;
+const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.contact.geo.lng}&z=16&output=embed`;
+---
+
+<section id="service-area" class="section">
+  <div class="container">
+    <header class="section__header reveal">
+      <span class="eyebrow">Where We Work</span>
+      <h2>Our studio in {c.serviceArea.primaryCity}</h2>
+      <p class="section__lede text-muted text-pretty">{c.serviceArea.sectionIntro}</p>
+    </header>
+
+    <div class="service-area-grid reveal">
+      <div class="service-area-grid__info">
+        <h3>Address &amp; building</h3>
+        <address class="service-area-grid__address">
+          <span>{c.business.name}</span>
+          <span>{a.street}</span>
+          <span>{a.city}, {a.state} {a.zip}</span>
+        </address>
+        <p class="service-area-grid__actions">
+          <a href={mapsLink} target="_blank" rel="noopener noreferrer" class="service-area-grid__maps-link">
+            Open in Google Maps
+          </a>
+          <span class="text-muted" aria-hidden="true"> · </span>
+          <a href={`tel:${c.contact.phoneE164}`}>{c.contact.phone}</a>
+        </p>
+        {c.serviceArea.studioDetails.map((paragraph) => (
+          <p class="service-area-grid__detail text-muted">{paragraph}</p>
+        ))}
+      </div>
+
+      <div class="service-area-grid__map">
+        <iframe
+          src={mapEmbedUrl}
+          width="100%"
+          height="400"
+          style="border:0;"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title={`Map: ${c.business.name}, ${addressLine}`}
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section__header {
+    max-width: 640px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .section__header h2 {
+    margin-block: 0.75rem 1rem;
+  }
+  .section__lede {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  .service-area-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .service-area-grid {
+      grid-template-columns: 1fr 1.35fr;
+      gap: 3rem;
+    }
+  }
+
+  .service-area-grid__info h3 {
+    margin: 0 0 1rem;
+    font-size: 1.125rem;
+  }
+
+  .service-area-grid__address {
+    margin: 0 0 0.75rem;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+  .service-area-grid__address span:first-child {
+    font-weight: var(--type-weight-body-bold);
+  }
+
+  .service-area-grid__actions {
+    margin: 0 0 1.25rem;
+    font-size: 0.9375rem;
+  }
+  .service-area-grid__maps-link {
+    font-weight: var(--type-weight-body-bold);
+  }
+
+  .service-area-grid__detail {
+    margin: 0 0 0.85rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .service-area-grid__detail:last-child {
+    margin-bottom: 0;
+  }
+
+  .service-area-grid__map {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

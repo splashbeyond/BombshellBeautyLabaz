@@ -1,0 +1,65 @@
+---
+/**
+ * Service JSON-LD schema — drop on each /services/[slug]/ page.
+ * Linked back to the LocalBusiness via @id reference.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+import type { Service } from '../../config/types';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const c = siteConfig;
+
+const serviceUrl = `${c.url}/services/${service.slug}/`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${serviceUrl}#service`,
+  name: service.name,
+  description: service.longDescription,
+  url: serviceUrl,
+  serviceType: service.name,
+  provider: {
+    '@type': c.business.schemaType,
+    '@id': `${c.url}/#localbusiness`,
+    name: c.business.name,
+    telephone: c.contact.phoneE164,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: c.contact.address.street,
+      addressLocality: c.contact.address.city,
+      addressRegion: c.contact.address.state,
+      postalCode: c.contact.address.zip,
+      addressCountry: c.contact.address.country,
+    },
+  },
+  areaServed: c.serviceArea.cities.map((city) => ({ '@type': 'City', name: city })),
+  ...(service.image && {
+    image: new URL(service.image, c.url).toString(),
+  }),
+  ...(service.priceFrom && {
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: service.priceFrom.replace(/[^0-9.]/g, ''),
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'USD',
+        minPrice: service.priceFrom.replace(/[^0-9.]/g, ''),
+      },
+    },
+  }),
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

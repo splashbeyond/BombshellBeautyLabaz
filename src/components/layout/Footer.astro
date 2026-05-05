@@ -1,0 +1,256 @@
+---
+/**
+ * Footer — full NAP, hours, social, legal.
+ *
+ * Critical SEO elements:
+ *   • Wraps the address in <address> (semantic HTML signal)
+ *   • NAP exactly matches LocalBusiness schema and GBP
+ *   • Service hours displayed in human-readable format
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const c = siteConfig;
+const currentYear = new Date().getFullYear();
+
+// Compact hours display: group consecutive identical days.
+const hours = c.contact.hours.map((h) =>
+  h.closed ? `${h.day}: Closed` : `${h.day}: ${h.open}–${h.close}`
+);
+---
+
+<footer class="site-footer" aria-label="Site footer">
+  <div class="site-footer__main container">
+    <div class="site-footer__brand">
+      <a href="/" class="site-footer__brand-link" aria-label={`${c.business.name} — Home`}>
+        {c.business.logoUrl ? (
+          <img
+            src={c.business.logoUrl}
+            alt=""
+            class="site-footer__brand-logo"
+            width="300"
+            height="104"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <>
+            <span class="site-footer__brand-mark" aria-hidden="true">{c.business.name.charAt(0)}</span>
+            <span class="site-footer__brand-name">{c.business.name}</span>
+          </>
+        )}
+      </a>
+      <p class="site-footer__tagline text-muted">{c.business.footerTagline ?? c.business.tagline}</p>
+
+      <address class="site-footer__address">
+        <strong>{c.business.name}</strong><br />
+        {c.contact.address.street}<br />
+        {c.contact.address.city}, {c.contact.address.state} {c.contact.address.zip}<br />
+        <a href={`tel:${c.contact.phoneE164}`} class="site-footer__phone">{c.contact.phone}</a><br />
+        <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a>
+      </address>
+
+      <div class="site-footer__hours">
+        <h6>Hours</h6>
+        <ul>
+          {hours.map((line) => <li>{line}</li>)}
+        </ul>
+        {c.contact.emergencyService && (
+          <p class="site-footer__emergency">{c.contact.emergencyText}</p>
+        )}
+      </div>
+    </div>
+
+    {c.footer.columns.map((col) => (
+      <div class="site-footer__col">
+        <h6>{col.heading}</h6>
+        <ul>
+          {col.links.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <div class="site-footer__col">
+      <h6>Connect</h6>
+      <ul class="site-footer__social">
+        {c.social.googleBusiness && (
+          <li><a href={c.social.googleBusiness} target="_blank" rel="noopener noreferrer">Google Business</a></li>
+        )}
+        {c.social.facebook && (
+          <li><a href={c.social.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+        )}
+        {c.social.instagram && (
+          <li><a href={c.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        )}
+        {c.social.linkedin && (
+          <li><a href={c.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        )}
+        {c.social.yelp && (
+          <li><a href={c.social.yelp} target="_blank" rel="noopener noreferrer">Yelp</a></li>
+        )}
+      </ul>
+      <div class="site-footer__creds">
+        <p class="text-subtle">{c.trust.license.label}</p>
+        {c.trust.insured && <p class="text-subtle">Fully Insured</p>}
+      </div>
+    </div>
+  </div>
+
+  <div class="site-footer__legal">
+    <div class="container site-footer__legal-inner">
+      <p class="text-subtle">© {currentYear} {c.business.legalName}. All rights reserved.</p>
+      <p class="text-subtle">
+        {c.business.foundedYear != null
+          ? `Serving ${c.serviceArea.primaryCity}, ${c.serviceArea.primaryRegion} since ${c.business.foundedYear}.`
+          : `Serving ${c.serviceArea.primaryCity}, ${c.serviceArea.primaryRegion}.`}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    background-color: var(--color-surface-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .site-footer__main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  @media (min-width: 640px) {
+    .site-footer__main { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 960px) {
+    .site-footer__main {
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .site-footer__brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+    font-size: 1.25rem;
+  }
+  .site-footer__brand-link:hover { text-decoration: none; color: var(--color-text); }
+
+  .site-footer__brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary);
+    color: var(--color-primary-fg);
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+
+  .site-footer__brand-logo {
+    display: block;
+    height: clamp(76px, 10vw, 108px);
+    width: auto;
+    max-width: min(340px, 100%);
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(26, 16, 20, 0.06));
+  }
+
+  .site-footer__tagline { margin-top: 0.5rem; max-width: 36ch; font-size: 0.9375rem; }
+
+  .site-footer__address {
+    margin-top: 1.5rem;
+    font-style: normal;
+    line-height: 1.7;
+    font-size: 0.9375rem;
+  }
+  .site-footer__address strong { font-weight: var(--type-weight-body-bold); }
+  .site-footer__phone {
+    color: var(--color-primary);
+    font-weight: var(--type-weight-body-bold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .site-footer__hours {
+    margin-top: 1.5rem;
+  }
+  .site-footer__hours h6 {
+    margin-bottom: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: var(--type-weight-body-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .site-footer__hours ul {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+  .site-footer__emergency {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-success);
+  }
+
+  .site-footer__col h6 {
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    font-weight: var(--type-weight-body-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .site-footer__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.9375rem;
+  }
+  .site-footer__col a {
+    color: var(--color-text);
+    transition: color var(--motion-duration) var(--motion-easing);
+  }
+  .site-footer__col a:hover { color: var(--color-primary); text-decoration: none; }
+
+  .site-footer__social a { color: var(--color-text-muted); }
+  .site-footer__social a:hover { color: var(--color-primary); }
+
+  .site-footer__creds {
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+  }
+  .site-footer__creds p { margin: 0; line-height: 1.6; }
+
+  .site-footer__legal {
+    border-top: 1px solid var(--color-border);
+    padding-block: 1.5rem;
+  }
+  .site-footer__legal-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .site-footer__legal-inner p { margin: 0; }
+
+  @media (min-width: 640px) {
+    .site-footer__legal-inner {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+</style>

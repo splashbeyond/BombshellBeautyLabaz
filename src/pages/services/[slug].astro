@@ -1,0 +1,246 @@
+---
+/**
+ * Dynamic service detail page. One page per entry in siteConfig.services.
+ *
+ * Each page ships with full SEO anatomy:
+ *   • Service-specific H1 with city
+ *   • Long-form content (what/why)
+ *   • Process visualization
+ *   • Pricing transparency
+ *   • Service-specific FAQ (with FAQPage schema)
+ *   • Service schema linked to LocalBusiness
+ *   • Breadcrumb schema
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import ServiceSchema from '../../components/seo/ServiceSchema.astro';
+import FAQSchema from '../../components/seo/FAQSchema.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import CTA from '../../components/sections/CTA.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+import { getSiteConfig } from '../../config/getSiteConfig';
+import { siteConfig as pathSource } from '../../config/site.config.v1';
+
+export function getStaticPaths() {
+  return pathSource.services.map((service) => ({
+    params: { slug: service.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+const c = getSiteConfig(Astro.locals.siteVariant);
+const service = c.services.find((s) => s.slug === slug);
+if (!service) {
+  return Astro.redirect('/404/');
+}
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services/' },
+  { name: service.name, href: `/services/${service.slug}/` },
+];
+
+const pageTitle = `${service.name} in ${c.serviceArea.primaryCity}, ${c.contact.address.state}`;
+const pageDescription = `${service.shortDescription} ${c.business.name} — ${c.trust.license.label}. Call ${c.contact.phone}.`;
+
+const primary = c.hero.primaryCta;
+const primaryHref = primary.href === 'tel:' ? `tel:${c.contact.phoneE164}` : primary.href;
+const primaryIsExternal = /^https?:\/\//.test(primaryHref);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} image={service.image}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <ServiceSchema service={service} />
+    <FAQSchema items={service.faq} />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <!-- Service hero -->
+  <section class="service-hero section-hero">
+    <div class="container">
+      <div class="service-hero__inner">
+        <div class="service-hero__copy">
+          <span class="eyebrow">{c.business.industry}</span>
+          <h1 class="text-balance">{pageTitle}</h1>
+          <p class="service-hero__lede text-muted text-pretty">{service.longDescription}</p>
+
+          <div class="service-hero__cta">
+            <a
+              href={primaryHref}
+              class="btn btn-primary btn-large"
+              {...(primaryIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              {primary.label}
+            </a>
+            <a href={`tel:${c.contact.phoneE164}`} class="btn btn-secondary btn-large">
+              Call {c.contact.phone}
+            </a>
+          </div>
+
+          {service.priceFrom && (
+            <p class="service-hero__price">
+              <span class="text-muted">Starting at</span>
+              <strong>{service.priceFrom}</strong>
+            </p>
+          )}
+        </div>
+
+        <ul class="service-hero__features">
+          {service.features.map((feature) => (
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M9 12l2 2 4-4M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+              </svg>
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is / why you need it (AI Overview-friendly paragraph) -->
+  <section class="section">
+    <div class="container container-narrow">
+      <h2>What is {service.name.toLowerCase()} at {c.business.name}?</h2>
+      <p>
+        {service.longDescription} Every patient is treated by Odilette Trevizo, RN, BSN — a
+        registered nurse and {c.trust.certifications.slice(0, 2).map((cert) => cert.name).join(' / ')} —
+        in our private Tempe studio at {c.contact.address.street}. Appointments only.
+      </p>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section section-alt">
+    <div class="container">
+      <header class="section__header">
+        <span class="eyebrow">How It Works</span>
+        <h2>Our {service.name.toLowerCase()} process</h2>
+      </header>
+
+      <div class="service-process-grid">
+        {service.process.map((step) => (
+          <div class="service-process-step">
+            <div class="service-process-step__number">{step.step}</div>
+            <h3>{step.title}</h3>
+            <p class="text-muted">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <FAQ
+    items={service.faq}
+    title={`${service.name} FAQs`}
+    description={`Common questions about our ${service.name.toLowerCase()} services in ${c.serviceArea.primaryCity}.`}
+  />
+
+  <CTA
+    title={`Ready to book your ${service.name.toLowerCase()} appointment?`}
+    description={`Reserve your spot online or call ${c.contact.phone}. ${c.business.name} is by appointment only — same-week availability is common.`}
+  />
+</BaseLayout>
+
+<style>
+  .service-hero__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 960px) {
+    .service-hero__inner { grid-template-columns: 1.6fr 1fr; gap: 4rem; }
+  }
+
+  .service-hero__lede {
+    margin-block: 1rem 2rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .service-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-hero__price {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: var(--color-surface-alt);
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+  }
+  .service-hero__price strong {
+    font-size: 1.25rem;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-primary);
+  }
+
+  .service-hero__features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 2rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    align-self: start;
+  }
+  .service-hero__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .service-hero__features svg { color: var(--color-success); flex-shrink: 0; margin-top: 2px; }
+
+  .section__header {
+    max-width: 640px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .section__header h2 { margin-top: 0.75rem; }
+
+  .service-process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .service-process-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .service-process-step {
+    padding: 1.75rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .service-process-step__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    background-color: var(--color-primary);
+    color: var(--color-primary-fg);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .service-process-step h3 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+</style>

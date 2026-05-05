@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import { getSiteConfig } from '../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Privacy Policy', href: '/privacy/' },
+];
+---
+
+<BaseLayout title="Privacy Policy">
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="section">
+    <div class="container container-narrow">
+      <h1>Privacy Policy</h1>
+      <p class="text-subtle">Last updated: {new Date().toLocaleDateString()}</p>
+      <p class="text-muted">
+        {siteConfig.business.legalName} ("we," "us," "our") respects your privacy. This policy
+        explains what information we collect, how we use it, and the choices you have. <strong>This is
+        a starter template — replace with policy reviewed by counsel.</strong>
+      </p>
+
+      <h2>Information we collect</h2>
+      <p class="text-muted">
+        When you contact us, we collect the information you submit (name, phone number, email,
+        ZIP code, service requested). We may also collect anonymous analytics data through tools
+        like Google Analytics.
+      </p>
+
+      <h2>How we use your information</h2>
+      <p class="text-muted">
+        We use your information to respond to inquiries, schedule services, send appointment
+        reminders, and improve our website. We do not sell your information to third parties.
+      </p>
+
+      <h2>Cookies</h2>
+      <p class="text-muted">
+        Our website uses cookies for analytics and essential site functionality. You can disable
+        cookies in your browser, though some features may not work as expected.
+      </p>
+
+      <h2>Your rights</h2>
+      <p class="text-muted">
+        You may request access to, correction of, or deletion of your personal information at
+        any time by emailing us at <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>.
+      </p>
+
+      <h2>Contact</h2>
+      <p class="text-muted">
+        Questions about this policy? Reach us at <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
+        or {siteConfig.contact.phone}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: 0.5rem; }
+  h2 { margin-block: 2rem 0.75rem; font-size: 1.375rem; }
+  p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; }
+  p + p { margin-top: 1rem; }
+</style>

@@ -1,0 +1,21 @@
+ACME TEMPLATE — COMMERCIAL LICENSE
+
+Copyright (c) 2026.
+
+Permission is hereby granted to the licensee to:
+
+1. Use this template for ONE end-business website per purchase.
+2. Modify the template freely for that website.
+3. Deploy the resulting website to any hosting provider.
+
+Restrictions:
+
+1. This template MAY NOT be redistributed, resold, or sublicensed in its
+   original or modified form.
+2. This template MAY NOT be used as the basis for a competing template
+   product.
+3. Removing or altering this license file is prohibited.
+
+Multi-site licenses available — contact the seller.
+
+THE TEMPLATE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

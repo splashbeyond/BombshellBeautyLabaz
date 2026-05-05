@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import { getSiteConfig } from '../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Terms of Service', href: '/terms/' },
+];
+---
+
+<BaseLayout title="Terms of Service">
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="section">
+    <div class="container container-narrow">
+      <h1>Terms of Service</h1>
+      <p class="text-subtle">Last updated: {new Date().toLocaleDateString()}</p>
+      <p class="text-muted">
+        These terms govern your use of {siteConfig.url}. By accessing the site, you agree
+        to these terms. <strong>This is a starter template — replace with terms reviewed by counsel.</strong>
+      </p>
+
+      <h2>Use of this site</h2>
+      <p class="text-muted">
+        You agree to use this site only for lawful purposes. You may not attempt to gain
+        unauthorized access, transmit malicious code, or scrape content without permission.
+      </p>
+
+      <h2>Service contracts</h2>
+      <p class="text-muted">
+        Submitting a contact form does not create a contract. Service contracts are formed
+        only when {siteConfig.business.legalName} provides a written estimate that you accept,
+        either in writing or by scheduling work.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p class="text-muted">
+        To the fullest extent permitted by law, {siteConfig.business.legalName} disclaims all
+        warranties, express or implied, regarding this website. The site is provided "as is."
+      </p>
+
+      <h2>Governing law</h2>
+      <p class="text-muted">
+        These terms are governed by the laws of the State of {siteConfig.contact.address.state}.
+        Any disputes will be resolved in the courts of {siteConfig.contact.address.state}.
+      </p>
+
+      <h2>Contact</h2>
+      <p class="text-muted">
+        Questions? <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a> or {siteConfig.contact.phone}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: 0.5rem; }
+  h2 { margin-block: 2rem 0.75rem; font-size: 1.375rem; }
+  p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; }
+  p + p { margin-top: 1rem; }
+</style>

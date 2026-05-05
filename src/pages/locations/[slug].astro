@@ -1,0 +1,117 @@
+---
+/**
+ * Location pages — one per city in serviceArea.cities.
+ *
+ * IMPORTANT for SEO: each page MUST have locally-specific content. Generic
+ * "we serve [city]" with a swapped name is a spam pattern Google deprioritizes.
+ *
+ * The agent that customizes this template should write 200+ unique words per
+ * location: mention neighborhoods, weather, permit specifics, local landmarks.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import ServicesGrid from '../../components/sections/ServicesGrid.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getSiteConfig } from '../../config/getSiteConfig';
+import { siteConfig as pathSource } from '../../config/site.config.v1';
+
+export function getStaticPaths() {
+  return pathSource.serviceArea.cities.map((city) => ({
+    params: { slug: city.toLowerCase().replace(/\s+/g, '-') },
+    props: { city },
+  }));
+}
+
+const { city } = Astro.props;
+const c = getSiteConfig(Astro.locals.siteVariant);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Service Area', href: '/contact/#service-area' },
+  { name: city, href: Astro.url.pathname },
+];
+
+const title = `Med Spa Serving ${city}, ${c.contact.address.state}`;
+const description = `${c.business.name} welcomes patients from ${city} for Botox, fillers, the Vampire Facial, IV therapy, and more. RN-led, by appointment only.`;
+
+const primary = c.hero.primaryCta;
+const primaryHref = primary.href === 'tel:' ? `tel:${c.contact.phoneE164}` : primary.href;
+const primaryIsExternal = /^https?:\/\//.test(primaryHref);
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="loc-hero section-hero">
+    <div class="container container-narrow text-center">
+      <span class="eyebrow">Now serving {city}</span>
+      <h1 class="text-balance">{title}</h1>
+      <p class="loc-hero__lede text-muted text-pretty">
+        {c.business.name} welcomes patients from {city} and the wider Phoenix East Valley.
+        Our studio at {c.contact.address.street}, {c.serviceArea.primaryCity} is a quick drive
+        from anywhere in {city}. Treatments are performed by Odilette Trevizo, RN, BSN — by appointment only.
+      </p>
+      <div class="loc-hero__cta">
+        <a
+          href={primaryHref}
+          class="btn btn-primary btn-large"
+          {...(primaryIsExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {primary.label}
+        </a>
+        <a href={`tel:${c.contact.phoneE164}`} class="btn btn-secondary btn-large">Call {c.contact.phone}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <h2>Why {city} patients choose {c.business.name}</h2>
+      <p class="text-muted">
+        Beautiful You Med Spa is a registered nurse-led aesthetic studio serving {city} and the
+        Phoenix East Valley from our private Tempe location. Founder Odilette Trevizo, RN, BSN holds
+        active certifications from Allergan (Botox, Juvederm), Galderma (Dysport, Restylane), and
+        Revanesse Versa, plus credentials in Platelet-Rich Plasma (PRP), the Vampire Facial, and
+        medical-grade chemical peels.
+      </p>
+      <p class="text-muted">
+        We see {city} patients for Botox starting at $11/unit, dermal fillers from $650/syringe, the
+        Vampire Facial at $450, VI Peels, IV therapy, and our physician-supervised Semaglutide
+        weight-loss program. Cherry financing is available for larger packages and series. Every
+        visit is by appointment only — no walk-ins, no double-booking, no rotating injectors.
+      </p>
+    </div>
+  </section>
+
+  <ServicesGrid title={`Services available to ${city} patients`} description={`The full ${c.business.name} menu — performed by an RN at our Tempe studio.`} />
+  <Testimonials />
+  <CTA
+    title={`${city} patients welcome.`}
+    description={`Book online via our Square portal or call ${c.contact.phone}. Same-week availability is common.`}
+  />
+</BaseLayout>
+
+<style>
+  .loc-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .loc-hero__lede {
+    margin-block: 1rem 2rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .loc-hero__cta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  h2 { margin-bottom: 1rem; }
+  p { font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; margin-inline: auto; }
+  p + p { margin-top: 1rem; }
+  em { color: var(--color-text-subtle); }
+</style>

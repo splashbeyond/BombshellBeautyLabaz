@@ -1,0 +1,57 @@
+---
+/**
+ * ServicesGrid — homepage services overview. Each card links to its detail page.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+import ServiceCard from './ServiceCard.astro';
+
+interface Props {
+  /** Optionally limit which services to show. */
+  limit?: number;
+  /** Optional title override. */
+  title?: string;
+  /** Optional description override. */
+  description?: string;
+}
+
+const {
+  limit,
+  title = 'Med Spa Services',
+  description = 'Personalized aesthetic and wellness treatments — performed by a registered nurse, by appointment only.',
+} = Astro.props;
+
+const services = limit ? siteConfig.services.slice(0, limit) : siteConfig.services;
+---
+
+<section id="services" class="section">
+  <div class="container">
+    <header class="section__header reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2>{title}</h2>
+      <p class="section__lede text-muted text-pretty">{description}</p>
+    </header>
+
+    <div class="services-grid--tiles">
+      {services.map((service, i) => (
+        <div class="services-grid__cell reveal" style={`transition-delay: ${i * 80}ms`}>
+          <ServiceCard service={service} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section__header {
+    max-width: 640px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .section__header h2 { margin-block: 0.75rem 1rem; }
+  .section__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+</style>

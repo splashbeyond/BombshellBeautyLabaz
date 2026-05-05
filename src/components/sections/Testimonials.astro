@@ -1,0 +1,285 @@
+---
+/**
+ * Testimonials — customer review cards (reference-inspired layout).
+ * No aggregate review count in this band (per client request).
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+import { starsHtml } from '../../config/icons';
+
+const c = siteConfig;
+const items = c.testimonials;
+
+const starMarkup = starsHtml(5);
+const sectionTitle = `${c.business.name} customer feedback`;
+const sectionIntro = `Thinking about visiting ${c.business.name}? Here’s what patients say about care with ${c.owner.preferredName}.`;
+---
+
+<section id="testimonials" class="testimonials-band">
+  <div class="testimonials-band__bg" aria-hidden="true"></div>
+  <div class="container testimonials-band__inner">
+    <header class="testimonials-band__header reveal">
+      <div class="testimonials-band__header-main">
+        <span class="testimonials-band__eyebrow">Customer reviews</span>
+        <h2 class="testimonials-band__title text-balance">{sectionTitle}</h2>
+      </div>
+      <p class="testimonials-band__intro text-muted text-pretty">{sectionIntro}</p>
+    </header>
+
+    <div class="testimonials-band__grid">
+      {items.map((t, i) => (
+        <article class="testimonial-card reveal" style={`transition-delay: ${i * 70}ms`}>
+          <div class="testimonial-card__top">
+            <span
+              class="testimonial-card__stars stars"
+              aria-label={`${t.rating} out of 5 stars`}
+              set:html={starMarkup}
+            ></span>
+            <span class="testimonial-card__quote-icon" aria-hidden="true">"</span>
+          </div>
+          <blockquote class="testimonial-card__quote">
+            <p>{t.quote}</p>
+          </blockquote>
+          <div class="testimonial-card__rule" role="presentation"></div>
+          <footer class="testimonial-card__footer">
+            <div class="testimonial-card__avatar">
+              <img
+                src={c.business.logoUrl}
+                alt=""
+                width="40"
+                height="40"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="testimonial-card__meta">
+              <cite class="testimonial-card__name">{t.name}</cite>
+              <span class="testimonial-card__label">Customer</span>
+            </div>
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-band {
+    position: relative;
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+    overflow: hidden;
+  }
+
+  /* Soft “cloud” wash up top + calm base — matches reference vibe without an image asset */
+  .testimonials-band__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 90% 55% at 50% -15%,
+        color-mix(in oklab, var(--color-primary) 14%, transparent) 0%,
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 70% 45% at 12% 18%,
+        color-mix(in oklab, var(--color-primary) 8%, transparent) 0%,
+        transparent 45%
+      ),
+      radial-gradient(
+        ellipse 65% 40% at 88% 22%,
+        color-mix(in oklab, var(--color-primary) 7%, transparent) 0%,
+        transparent 48%
+      ),
+      linear-gradient(
+        180deg,
+        var(--color-surface) 0%,
+        var(--color-surface-alt) 42%,
+        var(--color-bg) 100%
+      );
+  }
+
+  .testimonials-band__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonials-band__header {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.25rem, 4vw, 3rem);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .testimonials-band__header {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 2rem 3rem;
+    }
+    .testimonials-band__intro {
+      margin-top: 2.25rem;
+      max-width: 42ch;
+      justify-self: end;
+    }
+  }
+
+  .testimonials-band__eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: var(--type-weight-body-bold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .testimonials-band__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+    font-size: clamp(1.75rem, 2.5vw + 1rem, 2.65rem);
+    line-height: var(--type-line-height-display);
+    letter-spacing: var(--type-letter-spacing-display);
+    color: var(--color-text);
+  }
+
+  .testimonials-band__intro {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .testimonials-band__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .testimonial-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: clamp(1.5rem, 2.5vw, 1.85rem);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    box-shadow:
+      0 1px 2px rgba(26, 16, 20, 0.04),
+      0 12px 28px rgba(26, 16, 20, 0.06);
+    border: 1px solid color-mix(in oklab, var(--color-border) 85%, transparent);
+    transition:
+      transform var(--motion-duration) var(--motion-easing),
+      box-shadow var(--motion-duration) var(--motion-easing);
+  }
+  .testimonial-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 2px 4px rgba(26, 16, 20, 0.05),
+      0 18px 36px rgba(26, 16, 20, 0.09);
+  }
+
+  .testimonial-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-card__stars {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+  .testimonial-card__stars :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .testimonial-card__quote-icon {
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    line-height: 0.65;
+    font-weight: 500;
+    color: var(--color-text);
+    opacity: 0.07;
+    user-select: none;
+    margin: -0.35rem -0.15rem 0 0;
+  }
+
+  .testimonial-card__quote {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    flex: 1;
+  }
+  .testimonial-card__quote p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: var(--type-weight-body);
+    line-height: 1.72;
+    letter-spacing: var(--type-letter-spacing-body);
+    color: var(--color-text-muted);
+    text-align: left;
+  }
+
+  .testimonial-card__rule {
+    height: 1px;
+    background-color: var(--color-border);
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-top: auto;
+  }
+
+  .testimonial-card__avatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+  .testimonial-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .testimonial-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .testimonial-card__name {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: 1.0625rem;
+    font-weight: var(--type-weight-display);
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    line-height: 1.25;
+  }
+
+  .testimonial-card__label {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: var(--type-weight-body-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+/**
+ * LocalBusiness JSON-LD schema.
+ *
+ * This is the most important structured data on the entire site. It feeds:
+ *   • Google's local pack rankings
+ *   • Knowledge panels
+ *   • AI Overviews citations (geo + sameAs are critical)
+ *   • Voice search results
+ *
+ * Drop into the <head> of the homepage and contact page.
+ *
+ * Note: per Google guidance, use the most specific subtype available
+ * (e.g., "Plumber" not "LocalBusiness"). Configured via
+ * site.config.ts → business.schemaType.
+ */
+import { getSiteConfig } from '../../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+
+const c = siteConfig;
+
+// Build openingHoursSpecification array from the human-readable hours config.
+const dayMap: Record<string, string> = {
+  Monday: 'Monday',
+  Tuesday: 'Tuesday',
+  Wednesday: 'Wednesday',
+  Thursday: 'Thursday',
+  Friday: 'Friday',
+  Saturday: 'Saturday',
+  Sunday: 'Sunday',
+};
+
+const openingHoursSpecification = c.contact.hours
+  .filter((h) => !h.closed)
+  .map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: dayMap[h.day],
+    opens: h.open,
+    closes: h.close,
+  }));
+
+// Build the sameAs corroboration network (only include populated URLs).
+const sameAs = [
+  c.social.googleBusiness,
+  c.social.facebook,
+  c.social.instagram,
+  c.social.linkedin,
+  c.social.twitter,
+  c.social.youtube,
+  c.social.yelp,
+  c.social.bbb,
+  c.social.industrySpecific,
+].filter((url): url is string => Boolean(url && url.length > 0));
+
+// Build the areaServed array (each city becomes a City entity).
+const areaServed = c.serviceArea.cities.map((city) => ({
+  '@type': 'City',
+  name: city,
+}));
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': c.business.schemaType,
+  '@id': `${c.url}/#localbusiness`,
+  name: c.business.name,
+  legalName: c.business.legalName,
+  url: c.url,
+  telephone: c.contact.phoneE164,
+  email: c.contact.email,
+  description: c.business.description,
+  ...(c.business.foundedYear != null && { foundingDate: String(c.business.foundedYear) }),
+  image: new URL(c.business.logoUrl, c.url).toString(),
+  logo: new URL(c.business.logoUrl, c.url).toString(),
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: c.contact.address.street,
+    addressLocality: c.contact.address.city,
+    addressRegion: c.contact.address.state,
+    postalCode: c.contact.address.zip,
+    addressCountry: c.contact.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: c.contact.geo.lat,
+    longitude: c.contact.geo.lng,
+  },
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${c.contact.geo.lat},${c.contact.geo.lng}`,
+  areaServed,
+  openingHoursSpecification,
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: c.trust.rating,
+    reviewCount: c.trust.reviewCount,
+    bestRating: '5',
+    worstRating: '1',
+  },
+  ...(sameAs.length > 0 && { sameAs }),
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>

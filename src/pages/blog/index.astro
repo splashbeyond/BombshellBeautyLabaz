@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+];
+---
+
+<BaseLayout title="Blog" description="Tips, guides, and insights from our team.">
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <section class="section-hero">
+    <div class="container container-narrow text-center">
+      <span class="eyebrow">Insights</span>
+      <h1 class="text-balance">Practical guides from a working team</h1>
+      <p class="text-muted text-pretty" style="margin-top:1rem;font-size:1.125rem;line-height:1.6;">
+        Real advice from techs who do this work every day. No fluff, no gatekeeping.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <ul class="blog-list">
+        {posts.map((post) => (
+          <li class="blog-list__item">
+            <a href={`/blog/${post.slug}/`} class="blog-list__link">
+              <time datetime={post.data.publishDate.toISOString()} class="text-subtle">
+                {post.data.publishDate.toLocaleDateString('en-US', {
+                  year: 'numeric', month: 'long', day: 'numeric',
+                })}
+              </time>
+              <h2 class="blog-list__title">{post.data.title}</h2>
+              <p class="blog-list__desc text-muted">{post.data.description}</p>
+              <span class="blog-list__byline text-subtle">
+                By {post.data.author}
+                {post.data.tags.length > 0 && ` · ${post.data.tags.join(' · ')}`}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .blog-list__item {
+    border-top: 1px solid var(--color-border);
+  }
+  .blog-list__item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .blog-list__link {
+    display: block;
+    padding-block: 2rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: padding var(--motion-duration) var(--motion-easing);
+  }
+  .blog-list__link:hover {
+    padding-inline: 0.5rem;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .blog-list__title {
+    margin-block: 0.5rem;
+    font-size: clamp(1.5rem, 2vw + 1rem, 1.875rem);
+    line-height: 1.2;
+    transition: color var(--motion-duration) var(--motion-easing);
+  }
+  .blog-list__link:hover .blog-list__title { color: var(--color-primary); }
+  .blog-list__desc {
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    max-width: 64ch;
+  }
+  .blog-list__byline { font-size: 0.875rem; }
+</style>

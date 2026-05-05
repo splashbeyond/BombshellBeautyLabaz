@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import ArticleSchema from '../../components/seo/ArticleSchema.astro';
+import CTA from '../../components/sections/CTA.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+  { name: post.data.title, href: `/blog/${post.slug}/` },
+];
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.publishDate.toISOString()}
+  modifiedTime={post.data.updatedDate?.toISOString()}
+  author={post.data.author}
+  image={post.data.image}
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <ArticleSchema
+      title={post.data.title}
+      description={post.data.description}
+      datePublished={post.data.publishDate.toISOString()}
+      dateModified={post.data.updatedDate?.toISOString()}
+      author={post.data.author}
+      slug={post.slug}
+      image={post.data.image}
+    />
+  </Fragment>
+
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="article section">
+    <div class="container container-narrow">
+      <header class="article__header">
+        <time datetime={post.data.publishDate.toISOString()} class="text-subtle">
+          {post.data.publishDate.toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric',
+          })}
+        </time>
+        <h1 class="article__title text-balance">{post.data.title}</h1>
+        <p class="article__lede text-muted text-pretty">{post.data.description}</p>
+        <p class="article__byline text-subtle">By {post.data.author}</p>
+      </header>
+
+      <div class="article__body">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <CTA />
+</BaseLayout>
+
+<style>
+  .article__header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .article__title {
+    font-size: clamp(2rem, 3vw + 1rem, 3rem);
+    margin-block: 0.75rem 1rem;
+  }
+  .article__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 auto 1rem;
+  }
+  .article__byline { font-size: 0.875rem; }
+
+  .article__body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-text);
+  }
+  .article__body :global(h2) {
+    font-size: 1.5rem;
+    margin-block: 2.5rem 1rem;
+  }
+  .article__body :global(h3) {
+    font-size: 1.25rem;
+    margin-block: 2rem 0.75rem;
+  }
+  .article__body :global(p) {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  .article__body :global(ul),
+  .article__body :global(ol) {
+    margin-block: 1rem;
+    padding-left: 1.5rem;
+  }
+  .article__body :global(ul) { list-style: disc; }
+  .article__body :global(ol) { list-style: decimal; }
+  .article__body :global(li) { margin-bottom: 0.5rem; }
+  .article__body :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .article__body :global(strong) { font-weight: var(--type-weight-body-bold); }
+</style>

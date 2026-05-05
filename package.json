@@ -1,0 +1,39 @@
+{
+  "name": "acme-template",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Premium Astro template for service businesses. SEO-first, three-theme aesthetic system, single-config customization.",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lighthouse": "echo 'Run: npx unlighthouse --site http://localhost:4321'"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "3.2.1",
+    "astro": "^4.16.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "concurrently": "^9.2.1",
+    "lightningcss": "^1.32.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  },
+  "keywords": [
+    "astro",
+    "template",
+    "service-business",
+    "seo",
+    "local-seo",
+    "static-site"
+  ],
+  "license": "Commercial — see LICENSE.txt"
+}

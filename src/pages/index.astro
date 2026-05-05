@@ -1,0 +1,58 @@
+---
+/**
+ * Homepage — hybrid rich page with all the conversion sections.
+ *
+ * Sections in order:
+ *   1. Hero (above the fold)
+ *   2. MeetOwner (founder portrait + full bio)
+ *   3. ServicesGrid (what we do)
+ *   4. PracticeSpotlight (practice intro — Moon Valley–style band)
+ *   5. Results (before/after gallery)
+ *   6. Process (how it works)
+ *   7. Testimonials (social proof)
+ *   8. ServiceArea (geographic relevance)
+ *   9. FAQ (objection handling + AI Overview targeting)
+ *  10. TrustBar (trust strip above final CTA)
+ *  11. CTA (final conversion catch)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustBar from '../components/sections/TrustBar.astro';
+import MeetOwner from '../components/sections/MeetOwner.astro';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import PracticeSpotlight from '../components/sections/PracticeSpotlight.astro';
+import Results from '../components/sections/Results.astro';
+import Process from '../components/sections/Process.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import ServiceArea from '../components/sections/ServiceArea.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import CTA from '../components/sections/CTA.astro';
+
+import WebsiteSchema from '../components/seo/WebsiteSchema.astro';
+import FAQSchema from '../components/seo/FAQSchema.astro';
+import ReviewSchema from '../components/seo/ReviewSchema.astro';
+
+import { getSiteConfig } from '../config/getSiteConfig';
+
+const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <WebsiteSchema />
+    <FAQSchema items={siteConfig.faq} />
+    <ReviewSchema testimonials={siteConfig.testimonials} />
+  </Fragment>
+
+  <Hero />
+  <MeetOwner />
+  <ServicesGrid />
+  <PracticeSpotlight />
+  <Results />
+  <Process />
+  <Testimonials />
+  <ServiceArea />
+  <FAQ items={siteConfig.faq} />
+  <TrustBar />
+  <CTA />
+</BaseLayout>

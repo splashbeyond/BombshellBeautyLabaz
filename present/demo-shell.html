@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beautiful You — cycle design variants</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem 1.25rem;
+      padding: 0.65rem 1rem;
+      background: #1a1014;
+      color: #fafafa;
+      min-height: 52px;
+    }
+    .bar button {
+      background: #c2748a;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+    .bar button:hover { filter: brightness(1.08); }
+    .bar button:focus-visible {
+      outline: 2px solid #fafafa;
+      outline-offset: 2px;
+    }
+    .bar__label {
+      font-size: 0.9rem;
+      opacity: 0.92;
+      text-align: center;
+      max-width: min(90vw, 420px);
+    }
+    .bar__hint {
+      font-size: 0.72rem;
+      opacity: 0.55;
+      width: 100%;
+      text-align: center;
+    }
+    kbd {
+      background: #333;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-family: ui-monospace, monospace;
+    }
+    iframe {
+      width: 100%;
+      height: calc(100vh - 52px);
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <button type="button" id="prev" aria-label="Previous design">← Prev</button>
+    <span class="bar__label" id="label">Design 1 — v1</span>
+    <button type="button" id="next" aria-label="Next design">Next →</button>
+    <span class="bar__hint">Keyboard: <kbd>←</kbd> &nbsp; <kbd>→</kbd> &nbsp;·&nbsp; One <code>npm run dev</code> — iframe uses <code>?variant=</code></span>
+  </div>
+  <iframe id="frame" src="http://localhost:4321/" title="Design preview"></iframe>
+  <script>
+    const ORIGIN = 'http://localhost:4321';
+    const demos = [
+      { variant: 'v1', label: 'Design 1 — v1 (baseline)' },
+      { variant: 'v2', label: 'Design 2 — v2' },
+      { variant: 'v3', label: 'Design 3 — v3' },
+    ];
+    let i = 0;
+    const frame = document.getElementById('frame');
+    const label = document.getElementById('label');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+
+    function apply() {
+      const d = demos[i];
+      frame.src = ORIGIN + '/?variant=' + encodeURIComponent(d.variant);
+      label.textContent = d.label;
+    }
+
+    prev.addEventListener('click', () => {
+      i = (i - 1 + demos.length) % demos.length;
+      apply();
+    });
+    next.addEventListener('click', () => {
+      i = (i + 1) % demos.length;
+      apply();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prev.click();
+      if (e.key === 'ArrowRight') next.click();
+    });
+
+    apply();
+  </script>
+</body>
+</html>
