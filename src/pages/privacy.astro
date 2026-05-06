@@ -5,65 +5,293 @@ import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
 import { getSiteConfig } from '../config/getSiteConfig';
 
 const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+const c = siteConfig;
+const siteHost = new URL(c.url).hostname;
+const addr = c.contact.address;
+const addressLine = `${addr.street}, ${addr.city}, ${addr.state} ${addr.zip}`;
 
 const breadcrumbs = [
   { name: 'Home', href: '/' },
   { name: 'Privacy Policy', href: '/privacy/' },
 ];
+
+const lastUpdated = 'May 5, 2026';
 ---
 
-<BaseLayout title="Privacy Policy">
+<BaseLayout
+  title="Privacy Policy"
+  description={`How ${c.business.legalName} collects, uses, and protects your information at ${siteHost}.`}
+>
   <Fragment slot="head">
     <BreadcrumbSchema items={breadcrumbs} />
   </Fragment>
   <Breadcrumbs items={breadcrumbs} />
-  <section class="section">
+  <section class="section legal-doc">
     <div class="container container-narrow">
-      <h1>Privacy Policy</h1>
-      <p class="text-subtle">Last updated: {new Date().toLocaleDateString()}</p>
-      <p class="text-muted">
-        {siteConfig.business.legalName} ("we," "us," "our") respects your privacy. This policy
-        explains what information we collect, how we use it, and the choices you have. <strong>This is
-        a starter template — replace with policy reviewed by counsel.</strong>
+      <header class="legal-doc__header">
+        <h1>Privacy Policy</h1>
+        <p class="legal-doc__meta">
+          {c.business.legalName} · {siteHost}
+        </p>
+        <p class="text-subtle">Last updated: {lastUpdated}</p>
+      </header>
+
+      <p>
+        This Privacy Policy describes how {c.business.legalName} (&quot;we,&quot; &quot;us,&quot; or
+        &quot;our&quot;) collects, uses, and shares information about you when you visit our website at{' '}
+        {siteHost}, contact us, or book an appointment with us. By using our website or services, you
+        agree to the practices described in this policy.
       </p>
 
-      <h2>Information we collect</h2>
-      <p class="text-muted">
-        When you contact us, we collect the information you submit (name, phone number, email,
-        ZIP code, service requested). We may also collect anonymous analytics data through tools
-        like Google Analytics.
+      <h2>1. Information we collect</h2>
+
+      <h3>Information you provide directly</h3>
+      <p>We collect information you provide when you:</p>
+      <ul>
+        <li>Fill out a contact or consultation request form (name, email, phone number, message)</li>
+        <li>Book an appointment through our Square booking portal</li>
+        <li>Apply for Cherry financing</li>
+        <li>Call or email us directly</li>
+        <li>Communicate with us via text message (SMS)</li>
+      </ul>
+      <p>
+        The types of information collected may include: full name, email address, phone number, date of
+        birth, and health-related information relevant to your treatment (medical history, allergies,
+        medications, treatment goals).
       </p>
 
-      <h2>How we use your information</h2>
-      <p class="text-muted">
-        We use your information to respond to inquiries, schedule services, send appointment
-        reminders, and improve our website. We do not sell your information to third parties.
+      <h3>Information collected automatically</h3>
+      <p>When you visit our website, we may automatically collect:</p>
+      <ul>
+        <li>IP address and general location data</li>
+        <li>Browser type and device information</li>
+        <li>Pages visited, time spent on pages, and referring URLs</li>
+        <li>Cookies and similar tracking technologies</li>
+      </ul>
+      <p>
+        We use this information to understand how visitors use our site and to improve our content and
+        services. You may disable cookies in your browser settings, though some site features may not
+        function properly as a result.
       </p>
 
-      <h2>Cookies</h2>
-      <p class="text-muted">
-        Our website uses cookies for analytics and essential site functionality. You can disable
-        cookies in your browser, though some features may not work as expected.
+      <h3>Health &amp; medical information</h3>
+      <p>
+        Because we provide medical aesthetic and wellness services, we may collect health-related
+        information during consultations, intake forms, and treatment sessions. This information is used
+        solely to provide safe, appropriate care. We handle all health information with strict
+        confidentiality and in accordance with applicable law.
+      </p>
+      <p>
+        <strong>Note:</strong> Our website is not a HIPAA-covered entity in the traditional sense, but we
+        treat all health information with the same care and discretion as protected health information.
       </p>
 
-      <h2>Your rights</h2>
-      <p class="text-muted">
-        You may request access to, correction of, or deletion of your personal information at
-        any time by emailing us at <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>.
+      <h2>2. How we use your information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Schedule and confirm appointments</li>
+        <li>Provide and follow up on treatments and consultations</li>
+        <li>Send appointment reminders via SMS or email</li>
+        <li>
+          Send post-appointment review requests or satisfaction follow-ups (if you have opted in)
+        </li>
+        <li>Process payments and financing applications</li>
+        <li>Respond to your questions and inquiries</li>
+        <li>Improve our website and service offerings</li>
+        <li>Comply with legal obligations</li>
+      </ul>
+      <p>
+        We do not use your information for automated decision-making or profiling that produces legal or
+        similarly significant effects.
       </p>
 
-      <h2>Contact</h2>
-      <p class="text-muted">
-        Questions about this policy? Reach us at <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
-        or {siteConfig.contact.phone}.
+      <h2>3. SMS &amp; text message communications</h2>
+      <p>If you provide your phone number and consent to receive SMS messages, we may send you:</p>
+      <ul>
+        <li>Appointment reminders and confirmations</li>
+        <li>Post-visit follow-ups or care instructions</li>
+        <li>Review request messages</li>
+        <li>Promotional or wellness information (only with your consent)</li>
+      </ul>
+      <p>
+        Message and data rates may apply. You may opt out of SMS communications at any time by replying
+        STOP to any text message or by contacting us directly. We will honor all opt-out requests
+        promptly.
       </p>
+      <p>We do not share your phone number with third parties for their own marketing purposes.</p>
+
+      <h2>4. How we share your information</h2>
+      <p>
+        <strong>We do not sell your personal information.</strong> We may share your information with:
+      </p>
+
+      <h3>Service providers</h3>
+      <p>Third-party vendors who help us operate our business, including:</p>
+      <ul>
+        <li>
+          Square (appointment booking and payment processing —{' '}
+          <a href="https://squareup.com/us/en/legal/general/privacy" target="_blank" rel="noopener noreferrer"
+            >squareup.com/us/en/legal/general/privacy</a
+          >)
+        </li>
+        <li>
+          Cherry Financial (patient financing —{' '}
+          <a href="https://www.withcherry.com/privacy-policy" target="_blank" rel="noopener noreferrer"
+            >withcherry.com/privacy-policy</a
+          >)
+        </li>
+        <li>Email and SMS communication platforms</li>
+        <li>Website hosting and analytics providers</li>
+      </ul>
+      <p>
+        These providers are contractually required to protect your information and may only use it to
+        perform services on our behalf.
+      </p>
+
+      <h3>Legal requirements</h3>
+      <p>
+        We may disclose your information if required by law, court order, or government authority, or if
+        we believe disclosure is necessary to protect the rights, property, or safety of our business, our
+        patients, or others.
+      </p>
+
+      <h3>Business transfers</h3>
+      <p>
+        In the event of a merger, acquisition, or sale of business assets, your information may be
+        transferred as part of that transaction. We will notify you via email or prominent website notice
+        if this occurs.
+      </p>
+
+      <h2>5. Before &amp; after photos</h2>
+      <p>
+        We may take before and after photos of treatment areas for documentation purposes and, with your
+        explicit written consent, for use in marketing materials, social media, or our website. You will
+        always be asked for separate, specific consent before any photos are used publicly. You may
+        withdraw consent at any time by contacting us in writing.
+      </p>
+
+      <h2>6. Data retention</h2>
+      <p>
+        We retain your personal information for as long as necessary to provide services, comply with
+        legal obligations, resolve disputes, and enforce our agreements. Medical records and treatment
+        documentation are retained in accordance with Arizona state law requirements for healthcare
+        providers.
+      </p>
+
+      <h2>7. Your rights &amp; choices</h2>
+      <p>Depending on your location and applicable law, you may have the right to:</p>
+      <ul>
+        <li>Access the personal information we hold about you</li>
+        <li>Request correction of inaccurate information</li>
+        <li>Request deletion of your personal information (subject to legal retention requirements)</li>
+        <li>Opt out of marketing communications at any time</li>
+        <li>Withdraw consent for SMS communications by replying STOP</li>
+      </ul>
+      <p>
+        To exercise any of these rights, please contact us at{' '}
+        <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a> or{' '}
+        <a href={`tel:${c.contact.phoneE164}`}>{c.contact.phone}</a>. We will respond to all requests
+        within 30 days.
+      </p>
+
+      <h2>8. Children&apos;s privacy</h2>
+      <p>
+        Our website and services are not directed to children under the age of 18. We do not knowingly
+        collect personal information from minors. If you believe we have inadvertently collected
+        information from a minor, please contact us immediately and we will delete it.
+      </p>
+
+      <h2>9. Security</h2>
+      <p>
+        We implement reasonable administrative, technical, and physical safeguards to protect your
+        information from unauthorized access, disclosure, or misuse. However, no method of transmission over
+        the internet or electronic storage is 100% secure. We cannot guarantee absolute security.
+      </p>
+
+      <h2>10. Third-party links</h2>
+      <p>
+        Our website may contain links to third-party websites, including Square, Cherry, and Instagram.
+        This Privacy Policy does not apply to those sites. We encourage you to review the privacy policies
+        of any third-party site you visit.
+      </p>
+
+      <h2>11. Changes to this policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. We will post the updated policy on our
+        website with a revised &quot;Last Updated&quot; date. Your continued use of our website or
+        services after any changes constitutes your acceptance of the updated policy.
+      </p>
+
+      <h2>12. Contact us</h2>
+      <p>If you have any questions about this Privacy Policy or how we handle your information, please contact us:</p>
+      <address class="legal-doc__address">
+        <strong>{c.business.legalName}</strong><br />
+        {addressLine}<br />
+        Phone: <a href={`tel:${c.contact.phoneE164}`}>{c.contact.phone}</a><br />
+        Email: <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a><br />
+        Website: <a href={c.url}>{siteHost}</a>
+      </address>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  h1 { margin-bottom: 0.5rem; }
-  h2 { margin-block: 2rem 0.75rem; font-size: 1.375rem; }
-  p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; }
-  p + p { margin-top: 1rem; }
+  .legal-doc__header h1 {
+    margin-bottom: 0.35rem;
+  }
+  .legal-doc__meta {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+  .legal-doc h2 {
+    margin-block: 2.25rem 0.75rem;
+    font-size: 1.375rem;
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+    color: var(--color-text);
+    line-height: 1.25;
+  }
+  .legal-doc h2:first-of-type {
+    margin-top: 1.5rem;
+  }
+  .legal-doc h3 {
+    margin-block: 1.25rem 0.5rem;
+    font-size: 1.0625rem;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-text);
+  }
+  .legal-doc p,
+  .legal-doc li {
+    color: var(--color-text-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+  .legal-doc p + p {
+    margin-top: 1rem;
+  }
+  .legal-doc ul {
+    margin: 0.75rem 0 1rem;
+    padding-left: 1.25rem;
+    max-width: 68ch;
+  }
+  .legal-doc li + li {
+    margin-top: 0.35rem;
+  }
+  .legal-doc a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-doc a:hover {
+    color: var(--color-primary-hover);
+  }
+  .legal-doc__address {
+    margin-top: 1rem;
+    font-style: normal;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
 </style>

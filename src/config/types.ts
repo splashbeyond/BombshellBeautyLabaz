@@ -109,6 +109,9 @@ export interface SeoConfig {
   description: string;
   keywords: string[];
   ogImage: string;
+  /** Pixel size of `ogImage` (for `og:image:width` / `height`). Defaults to 1200×630. */
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   locale: string;
   googleSiteVerification?: string;
   bingVerification?: string;

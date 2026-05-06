@@ -9,9 +9,11 @@
  *   • Emergency text shown when emergencyService = true.
  */
 import { getSiteConfig } from '../../config/getSiteConfig';
+import { icons } from '../../config/icons';
 
 const siteConfig = getSiteConfig(Astro.locals.siteVariant);
 const c = siteConfig.contact;
+const instagramUrl = siteConfig.social.instagram?.trim() || '';
 ---
 
 <div class="phone-bar" role="region" aria-label="Contact information">
@@ -21,6 +23,19 @@ const c = siteConfig.contact;
         <span class="phone-bar__pulse"></span>
         {c.emergencyText}
       </span>
+    )}
+    <div class="phone-bar__actions">
+    {instagramUrl && (
+      <a
+        href={instagramUrl}
+        class="phone-bar__instagram"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${siteConfig.business.name} on Instagram`}
+        data-cta="phone-bar-instagram"
+      >
+        <span class="phone-bar__instagram-icon" set:html={icons.instagram} />
+      </a>
     )}
     <a href={`tel:${c.phoneE164}`} class="phone-bar__call" data-cta="phone-bar">
       <svg
@@ -39,6 +54,7 @@ const c = siteConfig.contact;
       <span class="phone-bar__call-label">Call Now:</span>
       <span class="phone-bar__call-number">{c.phone}</span>
     </a>
+    </div>
   </div>
 </div>
 
@@ -60,6 +76,38 @@ const c = siteConfig.contact;
     min-height: 44px;
     padding-block: 0.5rem;
     gap: 1rem;
+  }
+
+  .phone-bar__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-left: auto;
+  }
+
+  .phone-bar__instagram {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-bg);
+    padding: 0.5rem;
+    margin: -0.5rem 0;
+    border-radius: var(--radius-sm);
+    line-height: 0;
+    transition: opacity var(--motion-duration) var(--motion-easing);
+  }
+  .phone-bar__instagram:hover {
+    color: var(--color-bg);
+    opacity: 0.85;
+  }
+  .phone-bar__instagram:focus-visible {
+    outline: 2px solid var(--color-bg);
+    outline-offset: 2px;
+  }
+  .phone-bar__instagram-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+    display: block;
   }
 
   .phone-bar__urgency {
@@ -122,6 +170,9 @@ const c = siteConfig.contact;
     }
     .phone-bar__inner {
       justify-content: center;
+    }
+    .phone-bar__actions {
+      margin-left: 0;
     }
   }
 </style>

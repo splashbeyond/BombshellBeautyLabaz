@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
 import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
-import ContactForm from '../components/sections/ContactForm.astro';
 import { getSiteConfig } from '../config/getSiteConfig';
+import { formatTime12h } from '../utils/formatTime';
 
 const siteConfig = getSiteConfig(Astro.locals.siteVariant);
 
@@ -36,8 +36,8 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.cont
           <span class="eyebrow">Book or get in touch</span>
           <h1 class="text-balance">Let's plan your visit.</h1>
           <p class="contact-hero__lede text-muted text-pretty">
-            {c.business.name} is by appointment only — book directly via our online portal,
-            send a message below, or call us. We'll respond within one business day.
+            {c.business.name} is by appointment only. Book directly via our online portal
+            or call us. We'll respond within one business day.
           </p>
 
           <div class="contact-hero__cta">
@@ -78,15 +78,17 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.cont
                 {c.contact.hours.map((h) => (
                   <li>
                     <strong>{h.day}</strong>
-                    <span>{h.closed ? 'Closed' : `${h.open}–${h.close}`}</span>
+                    <span>
+                      {h.closed
+                        ? 'Closed'
+                        : `${formatTime12h(h.open!)} – ${formatTime12h(h.close!)}`}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
         </div>
-
-        <ContactForm />
       </div>
     </div>
   </section>
@@ -135,12 +137,7 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.cont
 
 <style>
   .contact-hero__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  @media (min-width: 960px) {
-    .contact-hero__inner { grid-template-columns: 1fr 1fr; gap: 4rem; }
+    max-width: 640px;
   }
 
   .contact-hero__lede {

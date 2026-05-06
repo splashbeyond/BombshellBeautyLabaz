@@ -4,7 +4,7 @@
  * ============================================================================
  *
  *  Owned and operated by Odilette Trevizo, RN, BSN.
- *  209 E Baseline Rd, Ste E106 #1, Tempe, AZ 85283.
+ *  209 E Baseline Rd. Ste E106 #1, Tempe, AZ 85283 (NAP matches Square booking).
  *
  *  This file is the single source of truth for everything business-specific
  *  on the site — copy, prices, services, hours, schema. Edit this file and
@@ -32,20 +32,20 @@ export const siteConfig: SiteConfig = {
   business: {
     name: 'Beautiful You Med Spa',
     legalName: 'Beautiful You Med Spa, LLC',
-    tagline: 'RN-led aesthetic care in Tempe — by appointment.',
+    tagline: 'RN-led aesthetic care in Tempe, by appointment.',
     footerTagline: 'Tempe Premier Med Spa',
     description:
       'Beautiful You Med Spa is a registered nurse-owned aesthetic studio in ' +
       'Tempe, Arizona, founded by Odilette Trevizo, RN, BSN. As an Allergan- and ' +
       'Galderma-certified injector, Odilette specializes in personalized Botox, ' +
       'dermal fillers, the Vampire Facial, medical-grade chemical peels, IV ' +
-      'therapy, and physician-supervised weight-loss programs — all by appointment.',
+      'therapy, and physician-supervised weight-loss programs, all by appointment.',
     aboutHeroLede:
       'Beautiful You Med Spa is an aesthetic studio in Tempe, Arizona, founded by ' +
       'Odilette Trevizo. As an Allergan- and Galderma-certified injector, Odilette ' +
       'specializes in personalized Botox, dermal fillers, the Vampire Facial, ' +
       'medical-grade chemical peels, IV therapy, and physician-supervised ' +
-      'weight-loss programs — all by appointment.',
+      'weight-loss programs, all by appointment.',
     industry: 'Medical Spa',
     // 'MedicalSpa' is the most specific schema.org subtype for an aesthetic clinic.
     // https://schema.org/MedicalSpa
@@ -61,7 +61,7 @@ export const siteConfig: SiteConfig = {
     phoneE164: '+16027301654',
     email: 'injector.nurseodi@gmail.com',
     address: {
-      street: '209 E Baseline Rd, Ste E106 #1',
+      street: '209 E Baseline Rd. Ste E106 #1',
       city: 'Tempe',
       state: 'AZ',
       zip: '85283',
@@ -71,8 +71,7 @@ export const siteConfig: SiteConfig = {
       lat: 33.37778,
       lng: -111.93642,
     },
-    // Hours per the official Square booking page (verified 2026-05).
-    // Closed Tue, Thu, Fri.
+    // Hours: mirror https://beautiful-you-med-spa.square.site/ (Location & hours).
     hours: [
       { day: 'Monday', open: '09:00', close: '17:00' },
       { day: 'Tuesday', closed: true },
@@ -96,13 +95,13 @@ export const siteConfig: SiteConfig = {
     primaryRegion: 'Arizona',
     cities: ['Tempe'],
     sectionIntro:
-      'Beautiful You Med Spa is one private, RN-led studio in Tempe — by appointment only. ' +
+      'Beautiful You Med Spa is one private, RN-led studio in Tempe, by appointment only. ' +
       'No walk-ins.',
     studioDetails: [
-      'Our address is 209 East Baseline Road, Suite E106 #1, Tempe, AZ 85283. The suite sits in a ' +
+      'Our address is 209 E Baseline Rd. Ste E106 #1, Tempe, AZ 85283. The suite sits in a ' +
         'professional office and retail complex along Baseline; enter the building and follow ' +
         'suite signage to E106.',
-      'Parking is available on-site. Check your confirmation for arrival notes — we greet patients ' +
+      'Parking is available on-site. Check your confirmation for arrival notes. We greet patients ' +
         'at their scheduled time so the lobby stays calm and private.',
     ],
   },
@@ -118,8 +117,8 @@ export const siteConfig: SiteConfig = {
       'where personalized care comes first. From <strong>Botox</strong>, <strong>Dysport</strong>, ' +
       'and <strong>Jeuveau</strong> to <strong>dermal fillers</strong>, <strong>microneedling</strong> ' +
       'and the <strong>Vampire Facial</strong>, <strong>VI Peel</strong>, <strong>PDO threads</strong>, ' +
-      '<strong>IV therapy</strong>, and physician-supervised <strong>Semaglutide</strong> weight loss — ' +
-      'every treatment is tailored to your goals in a private, appointment-only setting.</p>',
+      '<strong>IV therapy</strong>, and physician-supervised <strong>Semaglutide</strong> weight loss. ' +
+      'Every treatment is tailored to your goals in a private, appointment-only setting.</p>',
     bodyHtml2:
       '<p>Led by <strong>Odilette Trevizo, RN, BSN</strong>, our team combines clinical training ' +
       'with an eye for natural results. Whether you are refining lines and contours, refreshing skin ' +
@@ -133,12 +132,12 @@ export const siteConfig: SiteConfig = {
   // 6. SEO DEFAULTS
   // ==========================================================================
   seo: {
-    defaultTitle: 'Beautiful You Med Spa — RN-Led Botox, Filler & Aesthetic Care in Tempe, AZ',
+    defaultTitle: 'Beautiful You Med Spa | RN-Led Botox, Filler & Aesthetic Care in Tempe, AZ',
     titleTemplate: '{title} | {business}',
     description:
       'RN-owned med spa in Tempe, Arizona. Allergan- and Galderma-certified injector ' +
       'Odilette Trevizo, RN offers Botox, fillers, the Vampire Facial, chemical peels, ' +
-      'IV therapy, and Semaglutide weight loss — all by appointment.',
+      'IV therapy, and Semaglutide weight loss, all by appointment.',
     keywords: [
       'med spa tempe',
       'botox tempe',
@@ -151,7 +150,9 @@ export const siteConfig: SiteConfig = {
       'iv therapy tempe',
       'chemical peel tempe',
     ],
-    ogImage: '/images/og-default.jpg',
+    ogImage: '/images/logo.png',
+    ogImageWidth: 1020,
+    ogImageHeight: 1020,
     locale: 'en_US',
     googleSiteVerification: '',
     bingVerification: '',
@@ -185,15 +186,15 @@ export const siteConfig: SiteConfig = {
     },
     insured: true,
     certifications: [
-      { name: 'Allergan Certified Injector — Botox & Juvederm' },
-      { name: 'Galderma Certified Injector — Dysport & Restylane' },
+      { name: 'Allergan Certified Injector: Botox & Juvederm' },
+      { name: 'Galderma Certified Injector: Dysport & Restylane' },
       { name: 'Revanesse Versa Certified' },
       { name: 'PRP & Vampire Facial Certified' },
       { name: 'Medical-Grade Chemical Peel Certified' },
     ],
     guarantee:
       'Personalized treatment plans. No-pressure consultations. Every patient seen ' +
-      'by an RN — by appointment only.',
+      'by an RN, by appointment only.',
   },
 
   // ==========================================================================
@@ -205,7 +206,7 @@ export const siteConfig: SiteConfig = {
     subheadline:
       'Allergan- and Galderma-certified injector Odilette Trevizo, RN, BSN. ' +
       'Personalized Botox, fillers, Vampire Facial, IV therapy, and Semaglutide ' +
-      'weight loss — by appointment only.',
+      'weight loss, by appointment only.',
     primaryCta: {
       label: 'Book Consultation',
       href: 'https://beautiful-you-med-spa.square.site/',
@@ -233,17 +234,17 @@ export const siteConfig: SiteConfig = {
     introSlide: {
       image: '/images/hero.png',
       imageAlt:
-        'Beautiful You Med Spa — RN-led aesthetic treatments in Tempe, Arizona.',
+        'Beautiful You Med Spa: RN-led aesthetic treatments in Tempe, Arizona.',
       tagline:
-        'RN-led injectables, skin rejuvenation & wellness — by appointment in Tempe.',
+        'RN-led injectables, skin rejuvenation & wellness, by appointment in Tempe.',
     },
     slides: [
       {
         slug: 'botox-dysport-jeuveau',
         title: 'Botox, Dysport & Jeuveau',
-        tagline: 'FDA-approved neurotoxins — smooth lines with tailored RN dosing.',
+        tagline: 'FDA-approved neurotoxins: smooth lines with tailored RN dosing.',
         bio:
-          'FDA-approved neurotoxins tailored to your anatomy — smooth lines, soften expression, and refresh naturally. Allergan- and Galderma-certified dosing by an RN, never one-size-fits-all.',
+          'FDA-approved neurotoxins tailored to your anatomy: smooth lines, soften expression, and refresh naturally. Allergan- and Galderma-certified dosing by an RN, never one-size-fits-all.',
         image: '/images/services/botox.png',
         imageAlt: 'Botox and injectable consultation at Beautiful You Med Spa, Tempe AZ.',
       },
@@ -252,7 +253,7 @@ export const siteConfig: SiteConfig = {
         title: 'Dermal Fillers',
         tagline: 'Hyaluronic acid fillers for lips, cheeks, chin & jawline.',
         bio:
-          'Hyaluronic acid fillers for lips, cheeks, chin, jawline, and tear troughs — Versa, Restylane, and Juvederm. Advanced cannula work where it matters. Same RN, every syringe.',
+          'Hyaluronic acid fillers for lips, cheeks, chin, jawline, and tear troughs (Versa, Restylane, and Juvederm). Advanced cannula work where it matters. Same RN, every syringe.',
         image: '/images/services/fillers.png',
         imageAlt: 'Dermal filler results and lip enhancement at Beautiful You Med Spa.',
       },
@@ -261,7 +262,7 @@ export const siteConfig: SiteConfig = {
         title: 'Microneedling & Vampire Facial',
         tagline: 'Medical microneedling with HA, VAMP, or PRP for collagen & glow.',
         bio:
-          'Medical microneedling with HA, VAMP (salmon DNA), or PRP — the Vampire Facial boosts collagen and glow with your own growth factors. Minimal downtime, real texture change.',
+          'Medical microneedling with HA, VAMP (salmon DNA), or PRP. The Vampire Facial boosts collagen and glow with your own growth factors. Minimal downtime, real texture change.',
         image: '/images/services/microneedling.png',
         imageAlt: 'Microneedling and Vampire Facial treatment in Tempe med spa.',
       },
@@ -270,14 +271,14 @@ export const siteConfig: SiteConfig = {
         title: 'VI Peel & Chemical Peels',
         tagline: 'Medium-depth VI Peel for pigment, texture & melasma.',
         bio:
-          'Medium-depth VI Peel for pigment, texture, acne scars, and melasma — safe across skin tones. Peeling days 3–7 with a brighter, even canvas underneath.',
+          'Medium-depth VI Peel for pigment, texture, acne scars, and melasma, safe across skin tones. Peeling days 3–7 with a brighter, even canvas underneath.',
         image: '/images/services/chemical-peel.png',
         imageAlt: 'VI Peel chemical peel consultation at Beautiful You Med Spa.',
       },
       {
         slug: 'prp-sculptra-biostimulators',
         title: 'PRP & Sculptra',
-        tagline: 'Your growth factors & collagen stimulation — long-game rejuvenation.',
+        tagline: 'Your growth factors & collagen stimulation for long-game rejuvenation.',
         bio:
           'PRP for hair, face, and the Vampire Facial; Sculptra rebuilds volume by stimulating your own collagen over months. Long-game rejuvenation, RN-guided protocols.',
         image: '/images/services/prp-sculptra.png',
@@ -288,16 +289,16 @@ export const siteConfig: SiteConfig = {
         title: 'PDO Threads',
         tagline: 'Non-surgical lift & tightening with dissolvable PDO threads.',
         bio:
-          'Non-surgical lifting and tightening with dissolvable PDO threads — jawline, cheeks, brows, neck. Instant lift plus collagen stimulation as threads integrate.',
+          'Non-surgical lifting and tightening with dissolvable PDO threads (jawline, cheeks, brows, neck). Instant lift plus collagen stimulation as threads integrate.',
         image: '/images/services/pdo-threads.png',
         imageAlt: 'PDO thread lift consultation at Beautiful You Med Spa.',
       },
       {
         slug: 'iv-therapy-wellness-shots',
         title: 'IV Therapy & Wellness Shots',
-        tagline: 'Hydration, beauty & recovery drips — plus B12, MIC & NAD.',
+        tagline: 'Hydration, beauty & recovery drips, plus B12, MIC & NAD.',
         bio:
-          'Hydration, beauty, recovery, and energy drips — plus B12, MIC, and NAD shots — administered by an RN in a private studio, not a cocktail lounge.',
+          'Hydration, beauty, recovery, and energy drips, plus B12, MIC, and NAD shots, administered by an RN in a private studio, not a cocktail lounge.',
         image: '/images/services/iv-therapy.png',
         imageAlt: 'IV therapy lounge at Beautiful You Med Spa in Tempe, Arizona.',
       },
@@ -306,7 +307,7 @@ export const siteConfig: SiteConfig = {
         title: 'Semaglutide Weight Loss',
         tagline: 'Physician-supervised program with labs, weigh-ins & coaching.',
         bio:
-          'Physician-supervised Semaglutide with labs, weigh-ins, and coaching — structured monthly care for qualifying patients who want sustainable results.',
+          'Physician-supervised Semaglutide with labs, weigh-ins, and coaching: structured monthly care for qualifying patients who want sustainable results.',
         image: '/images/services/semaglutide.png',
         imageAlt: 'Medical weight loss consultation at Beautiful You Med Spa.',
       },
@@ -323,11 +324,11 @@ export const siteConfig: SiteConfig = {
     roleTitle: 'Owner & Lead Injector',
     photoUrl: '/images/odi-trevizo.png',
     photoAlt:
-      'Odilette Trevizo, RN, BSN — registered nurse, certified injector, and owner of Beautiful You Med Spa in Tempe, Arizona.',
+      'Odilette Trevizo, RN, BSN, registered nurse, certified injector, and owner of Beautiful You Med Spa in Tempe, Arizona.',
     intro:
-      'Every patient is treated by me personally — same hands, every visit. No rotating injectors, no rush.',
+      'Every patient is treated by me personally. Same hands, every visit. No rotating injectors, no rush.',
     bioParagraphs: [
-      'I\'m an Arizona-licensed Registered Nurse (BSN) and I founded Beautiful You Med Spa in Tempe. One rule: you always know who is treating you — every injectable, peel, and consultation is with me, by appointment only.',
+      'I\'m an Arizona-licensed Registered Nurse (BSN) and I founded Beautiful You Med Spa in Tempe. One rule: you always know who is treating you. Every injectable, peel, and consultation is with me, by appointment only.',
       'I\'m certified with Allergan (Botox, Juvederm), Galderma (Dysport, Restylane), and Revanesse Versa; trained in PRP and the Vampire Facial; and certified in medical-grade chemical peels. I also offer IV therapy, B12/MIC shots, EltaMD sunscreen, and a physician-supervised Semaglutide program for qualifying patients.',
     ],
   },
@@ -342,12 +343,12 @@ export const siteConfig: SiteConfig = {
     {
       slug: 'botox-dysport-jeuveau',
       name: 'Botox, Dysport & Jeuveau',
-      shortDescription: 'Smooth wrinkles. Soften lines. Refresh — naturally.',
+      shortDescription: 'Smooth wrinkles. Soften lines. Refresh naturally.',
       longDescription:
         'Wrinkle-relaxing injections that soften horizontal forehead lines, ' +
         'crow\'s feet, worry lines, neck bands, and gummy smiles. Lip flips and ' +
         'subtle brow lifts available. All three FDA-approved neurotoxins offered, ' +
-        'with dosing tailored to your facial anatomy and aesthetic goals — never one-size-fits-all.',
+        'with dosing tailored to your facial anatomy and aesthetic goals, never one-size-fits-all.',
       icon: 'star',
       image: '/images/services/botox.png',
       priceFrom: '$11/unit',
@@ -403,14 +404,14 @@ export const siteConfig: SiteConfig = {
         'Hyaluronic acid (HA) fillers from Versa, Restylane (Classic, Defyne, Refyne, Silk, Kysse), ' +
         'and Juvederm. Lip enhancement, chin and jawline contouring, cheek volume, tear trough ' +
         'correction, and even ear filler available. Advanced injection technique with cannula ' +
-        'where appropriate — using only as much product as your goals require.',
+        'where appropriate, using only as much product as your goals require.',
       icon: 'star',
       image: '/images/services/fillers.png',
       priceFrom: '$650/syringe',
       features: [
-        'Mini Lip Plump (0.5mL HA) — $295',
-        'Chin & jawline contouring — $650',
-        'Filler dissolver (Hyaluronidase / Hylenex) — $160',
+        'Mini Lip Plump (0.5mL HA), $295',
+        'Chin & jawline contouring, $650',
+        'Filler dissolver (Hyaluronidase / Hylenex), $160',
         'Allergan + Galderma + Revanesse certified',
       ],
       process: [
@@ -440,7 +441,7 @@ export const siteConfig: SiteConfig = {
         {
           question: 'How much does lip filler cost?',
           answer:
-            'A Mini Lip Plump using 0.5mL of HA filler is $295 — ideal for first-time patients ' +
+            'A Mini Lip Plump using 0.5mL of HA filler is $295, ideal for first-time patients ' +
             'wanting a subtle enhancement. A full syringe (1mL) starts at $650. Filler typically ' +
             'lasts 9–12 months in the lips.',
         },
@@ -459,7 +460,7 @@ export const siteConfig: SiteConfig = {
       name: 'Microneedling & Vampire Facial',
       shortDescription: 'Stimulate collagen. Tighten skin. Glow naturally.',
       longDescription:
-        'Medical-grade microneedling for face, neck, and décolletage — three options. With HA ' +
+        'Medical-grade microneedling for face, neck, and décolletage, with three options. With HA ' +
         'serum for hydration and texture, with VAMP (salmon DNA) for next-level rejuvenation, or ' +
         'with PRP from your own blood: the famous Vampire Facial. All three stimulate collagen, ' +
         'minimize pores, and improve texture and tone with minimal downtime.',
@@ -467,10 +468,10 @@ export const siteConfig: SiteConfig = {
       image: '/images/services/microneedling.png',
       priceFrom: '$260',
       features: [
-        'Vampire Facial (microneedling + PRP) — $450',
-        'Microneedling + HA serum — $260',
-        'Microneedling + VAMP (salmon DNA) — $260',
-        'Add Dermaplaning before treatment — $120',
+        'Vampire Facial (microneedling + PRP), $450',
+        'Microneedling + HA serum, $260',
+        'Microneedling + VAMP (salmon DNA), $260',
+        'Add Dermaplaning before treatment, $120',
       ],
       process: [
         {
@@ -508,7 +509,7 @@ export const siteConfig: SiteConfig = {
           question: 'How is microneedling with VAMP different?',
           answer:
             'VAMP uses purified salmon DNA (polynucleotides) instead of PRP. It\'s a $260 alternative ' +
-            'that delivers similar collagen-boosting and rejuvenating benefits without a blood draw — ' +
+            'that delivers similar collagen-boosting and rejuvenating benefits without a blood draw, ' +
             'great for needle-averse patients or those wanting a quicker session.',
         },
       ],
@@ -521,13 +522,13 @@ export const siteConfig: SiteConfig = {
       longDescription:
         'The VI Peel is a medium-depth medical-grade chemical peel formulated to rejuvenate aging ' +
         'skin, soften fine lines, even tone, and prevent future damage. Suitable for all skin types ' +
-        'and tones — including melanin-rich skin where many peels are not. Pair with same-day Botox ' +
+        'and tones, including melanin-rich skin where many peels are not. Pair with same-day Botox ' +
         'in our ToxBooster combo for total facial rejuvenation.',
       icon: 'star',
       image: '/images/services/chemical-peel.png',
       priceFrom: '$250',
       features: [
-        'VI Peel (medium-depth) — $250',
+        'VI Peel (medium-depth), $250',
         'ToxBooster (VI Peel + Botox same-day combo)',
         'Suitable for all skin types and tones',
         'Performed by a medical-grade peel certified RN',
@@ -561,7 +562,7 @@ export const siteConfig: SiteConfig = {
           answer:
             'The VI Peel is FDA-cleared for treating fine lines and wrinkles, hyperpigmentation, ' +
             'melasma, sun damage, acne, acne scarring, rough texture, and dull skin. It works on ' +
-            'all skin types and tones — including darker skin, where many other peels carry risk.',
+            'all skin types and tones, including darker skin, where many other peels carry risk.',
         },
         {
           question: 'How much downtime does a VI Peel require?',
@@ -578,7 +579,7 @@ export const siteConfig: SiteConfig = {
       name: 'PRP & Sculptra',
       shortDescription: 'Regenerate from within. Stimulate your own collagen.',
       longDescription:
-        'Platelet-Rich Plasma (PRP) is drawn from your own blood and used to restore tissue — ' +
+        'Platelet-Rich Plasma (PRP) is drawn from your own blood and used to restore tissue: ' +
         'for hair restoration on a thinning scalp, facial rejuvenation, and the Vampire Facial. ' +
         'Sculptra (poly-L-lactic acid) is a long-lasting biostimulator that gradually rebuilds ' +
         'your own collagen for years of natural-looking volume restoration in the cheeks, temples, ' +
@@ -587,9 +588,9 @@ export const siteConfig: SiteConfig = {
       image: '/images/services/prp-sculptra.png',
       priceFrom: '$375',
       features: [
-        'PRP Hair Restoration — $375',
-        'PRP Facial Injections (cannula) — $450',
-        'Sculptra — $400 deposit required (Zelle)',
+        'PRP Hair Restoration, $375',
+        'PRP Facial Injections (cannula), $450',
+        'Sculptra, $400 deposit required (Zelle)',
         'All using FDA-cleared products and protocols',
       ],
       process: [
@@ -597,7 +598,7 @@ export const siteConfig: SiteConfig = {
           step: 1,
           title: 'Plan',
           description:
-            'Consultation to determine the right protocol — PRP for hair, PRP for face, or Sculptra ' +
+            'Consultation to determine the right protocol: PRP for hair, PRP for face, or Sculptra ' +
             'for collagen rebuilding. We\'ll outline a series and total investment up front.',
         },
         {
@@ -636,7 +637,7 @@ export const siteConfig: SiteConfig = {
     {
       slug: 'pdo-threads',
       name: 'PDO Threads',
-      shortDescription: 'Lift, tighten, and contour — without surgery.',
+      shortDescription: 'Lift, tighten, and contour without surgery.',
       longDescription:
         'Polydioxanone (PDO) threads are dissolvable sutures placed beneath the skin to instantly ' +
         'lift sagging tissue, redefine the jawline, and stimulate long-term collagen production. ' +
@@ -646,7 +647,7 @@ export const siteConfig: SiteConfig = {
       image: '/images/services/pdo-threads.png',
       priceFrom: 'Deposit required',
       features: [
-        'Non-surgical lift — instant + progressive',
+        'Non-surgical lift: instant + progressive',
         'Stimulates natural collagen for months after',
         'Custom thread placement plan',
         '$300 deposit required (Zelle to 602-510-3948)',
@@ -699,23 +700,23 @@ export const siteConfig: SiteConfig = {
       longDescription:
         'Custom IV drips and quick injectable shots designed for energy, recovery, beauty, and ' +
         'wellness. From the Youthful Beauty Drip and Myer\'s cocktail to NAD, B12, and B12/MIC ' +
-        'fat-burning injections — all administered by a registered nurse in a private clinical ' +
+        'fat-burning injections, all administered by a registered nurse in a private clinical ' +
         'setting (not a strip-mall cocktail bar).',
       icon: 'star',
       image: '/images/services/iv-therapy.png',
       priceFrom: '$20',
       features: [
-        'Youthful IV (skin, hair, nails) — $250',
-        'Executive IV (basic hydration) — $165',
-        'Myer\'s IV (B12 + Vitamin C + Magnesium) — $165',
-        'B12/MIC fat-burning shot — $25 · NAD shot — $30',
+        'Youthful IV (skin, hair, nails), $250',
+        'Executive IV (basic hydration), $165',
+        'Myer\'s IV (B12 + Vitamin C + Magnesium), $165',
+        'B12/MIC fat-burning shot, $25 · NAD shot, $30',
       ],
       process: [
         {
           step: 1,
           title: 'Choose',
           description:
-            'Pick a drip or shot based on your goal — energy, beauty, recovery, fat metabolism, ' +
+            'Pick a drip or shot based on your goal: energy, beauty, recovery, fat metabolism, ' +
             'immune support, or B12 deficiency.',
         },
         {
@@ -737,7 +738,7 @@ export const siteConfig: SiteConfig = {
         {
           question: 'What\'s the difference between Myer\'s and Performance IV?',
           answer:
-            'Myer\'s IV ($165) contains a high dose of vitamin C, vitamin B12, and magnesium — ' +
+            'Myer\'s IV ($165) contains a high dose of vitamin C, vitamin B12, and magnesium, ' +
             'great for general wellness, immune support, and B12 deficiency. The Performance IV ' +
             '($200) is formulated for athletes and active patients, with electrolytes and amino ' +
             'acids tailored for stamina, recovery, and pre/post-workout hydration.',
@@ -747,7 +748,7 @@ export const siteConfig: SiteConfig = {
           answer:
             'NAD (nicotinamide adenine dinucleotide) is a coenzyme that helps cells produce energy, ' +
             'repair DNA, and regulate gene expression. NAD shots are $30 and have become popular ' +
-            'for energy, mental focus, and longevity support. Frequency depends on your goals — ' +
+            'for energy, mental focus, and longevity support. Frequency depends on your goals; ' +
             'we\'ll discuss a protocol at your consultation.',
         },
       ],
@@ -760,7 +761,7 @@ export const siteConfig: SiteConfig = {
       longDescription:
         'A physician-supervised weight-loss program using compounded Semaglutide. After lab review ' +
         'and consultation, qualifying patients begin a structured monthly protocol with weigh-ins, ' +
-        'dosing adjustments, and lifestyle coaching. Real, sustainable results — not a quick fix.',
+        'dosing adjustments, and lifestyle coaching. Real, sustainable results, not a quick fix.',
       icon: 'star',
       image: '/images/services/semaglutide.png',
       priceFrom: '$200/month',
@@ -821,15 +822,15 @@ export const siteConfig: SiteConfig = {
     eyebrow: 'Results',
     title: 'Real outcomes. Real patients.',
     lede:
-      'Documented transformations from treatments at Beautiful You — more coming soon as we grow our gallery.',
+      'Documented transformations from treatments at Beautiful You. More coming soon as we grow our gallery.',
     items: [
       {
         imageSrc: '/images/results/jeuveau-forehead-before-after.png',
         alt:
           'Before and after Jeuveau treatment on the forehead: horizontal expression lines softened after 14 days.',
-        title: 'Jeuveau — forehead',
+        title: 'Jeuveau: forehead',
         description:
-          'Just 14 days post-Jeuveau and the difference is clear—fine lines softened and a naturally youthful look restored.',
+          'Just 14 days post-Jeuveau and the difference is clear: fine lines softened and a naturally youthful look restored.',
       },
       {
         images: [
@@ -843,7 +844,7 @@ export const siteConfig: SiteConfig = {
         alt: 'Before and after VAMP microneedling treatment showing clearer, brighter skin.',
         title: 'VAMP + microneedling',
         description:
-          'VAMP = Vitamins, Antioxidants, Minerals, and Peptides — a powerhouse serum that’s designed to ' +
+          'VAMP = Vitamins, Antioxidants, Minerals, and Peptides: a powerhouse serum that’s designed to ' +
           'supercharge your microneedling results.',
       },
       {
@@ -863,7 +864,7 @@ export const siteConfig: SiteConfig = {
           'Patient receiving a Myers IV drip with vitamin-rich fluid at Beautiful You Med Spa in Tempe.',
         title: 'Need a boost?',
         description:
-          'Myers IV is packed with magnesium, calcium, B vitamins, and vitamin C — a classic blend for ' +
+          'Myers IV is packed with magnesium, calcium, B vitamins, and vitamin C, a classic blend for ' +
           'hydration and recovery.',
       },
       {
@@ -884,7 +885,7 @@ export const siteConfig: SiteConfig = {
         alt: 'Before and after microneedling showing improved skin texture and radiance.',
         title: '✨ Microneedling Magic ✨',
         description:
-          'Microneedling helps improve skin texture, reduce fine lines, and fade acne scars—revealing a ' +
+          'Microneedling helps improve skin texture, reduce fine lines, and fade acne scars, revealing a ' +
           'smoother, more radiant complexion.',
       },
     ],
@@ -899,7 +900,7 @@ export const siteConfig: SiteConfig = {
       icon: 'clipboard',
       title: 'Book',
       description:
-        'Reserve a slot online through our secure Square portal — or call (602) 730-1654. ' +
+        'Reserve a slot online through our secure Square portal, or call (602) 730-1654. ' +
         'Most services have appointments within 1–2 weeks.',
     },
     {
@@ -973,10 +974,10 @@ export const siteConfig: SiteConfig = {
     {
       question: 'Who performs the treatments at Beautiful You Med Spa?',
       answer:
-        'Every treatment at Beautiful You Med Spa is performed by Odilette Trevizo, RN, BSN — ' +
+        'Every treatment at Beautiful You Med Spa is performed by Odilette Trevizo, RN, BSN, ' +
         'a Registered Nurse and certified injector trained directly by Allergan (Botox, Juvederm), ' +
         'Galderma (Dysport, Restylane), and Revanesse Versa. Patients are never seen by a tech, ' +
-        'aesthetician, or rotating provider — same hands, every visit.',
+        'aesthetician, or rotating provider. Same hands, every visit.',
     },
     {
       question: 'How much does Botox cost in Tempe, AZ?',
@@ -1005,7 +1006,7 @@ export const siteConfig: SiteConfig = {
     {
       question: 'Do you offer Semaglutide for weight loss?',
       answer:
-        'Yes — Beautiful You Med Spa runs a physician-supervised Semaglutide program. After a $400 ' +
+        'Yes. Beautiful You Med Spa runs a physician-supervised Semaglutide program. After a $400 ' +
         'qualifying consultation that reviews your labs and medical history, qualifying patients ' +
         'pick up their first month of medication for $200 and continue with $350 monthly visits ' +
         'that include weigh-ins and dose adjustments.',
@@ -1023,7 +1024,7 @@ export const siteConfig: SiteConfig = {
         'PDO Threads ($300 deposit) and Sculptra ($400 deposit) require non-refundable deposits via ' +
         'Zelle to 602-510-3948 because the materials are ordered or reconstituted specifically for ' +
         'your appointment and the procedure blocks a long time slot. The deposit is fully applied ' +
-        'to your treatment cost — it is not an additional fee.',
+        'to your treatment cost (it is not an additional fee).',
     },
     {
       question: 'What credentials and certifications does the injector hold?',

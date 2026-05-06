@@ -8,6 +8,7 @@
  *   • Service hours displayed in human-readable format
  */
 import { getSiteConfig } from '../../config/getSiteConfig';
+import { formatTime12h } from '../../utils/formatTime';
 
 const siteConfig = getSiteConfig(Astro.locals.siteVariant);
 
@@ -16,14 +17,16 @@ const currentYear = new Date().getFullYear();
 
 // Compact hours display: group consecutive identical days.
 const hours = c.contact.hours.map((h) =>
-  h.closed ? `${h.day}: Closed` : `${h.day}: ${h.open}–${h.close}`
+  h.closed
+    ? `${h.day}: Closed`
+    : `${h.day}: ${formatTime12h(h.open!)} – ${formatTime12h(h.close!)}`
 );
 ---
 
 <footer class="site-footer" aria-label="Site footer">
   <div class="site-footer__main container">
     <div class="site-footer__brand">
-      <a href="/" class="site-footer__brand-link" aria-label={`${c.business.name} — Home`}>
+      <a href="/" class="site-footer__brand-link" aria-label={`${c.business.name}, home`}>
         {c.business.logoUrl ? (
           <img
             src={c.business.logoUrl}

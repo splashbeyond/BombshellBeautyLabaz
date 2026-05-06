@@ -42,7 +42,7 @@ const breadcrumbs = [
 ];
 
 const pageTitle = `${service.name} in ${c.serviceArea.primaryCity}, ${c.contact.address.state}`;
-const pageDescription = `${service.shortDescription} ${c.business.name} — ${c.trust.license.label}. Call ${c.contact.phone}.`;
+const pageDescription = `${service.shortDescription} ${c.business.name}. ${c.trust.license.label}. Call ${c.contact.phone}.`;
 
 const primary = c.hero.primaryCta;
 const primaryHref = primary.href === 'tel:' ? `tel:${c.contact.phoneE164}` : primary.href;
@@ -107,8 +107,8 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
     <div class="container container-narrow">
       <h2>What is {service.name.toLowerCase()} at {c.business.name}?</h2>
       <p>
-        {service.longDescription} Every patient is treated by Odilette Trevizo, RN, BSN — a
-        registered nurse and {c.trust.certifications.slice(0, 2).map((cert) => cert.name).join(' / ')} —
+        {service.longDescription} Every patient is treated by Odilette Trevizo, RN, BSN, a
+        registered nurse and {c.trust.certifications.slice(0, 2).map((cert) => cert.name).join(' / ')},
         in our private Tempe studio at {c.contact.address.street}. Appointments only.
       </p>
     </div>
@@ -144,7 +144,7 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
 
   <CTA
     title={`Ready to book your ${service.name.toLowerCase()} appointment?`}
-    description={`Reserve your spot online or call ${c.contact.phone}. ${c.business.name} is by appointment only — same-week availability is common.`}
+    description={`Reserve your spot online or call ${c.contact.phone}. ${c.business.name} is by appointment only; same-week availability is common.`}
   />
 </BaseLayout>
 

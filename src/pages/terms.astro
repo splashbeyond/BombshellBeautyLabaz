@@ -5,63 +5,290 @@ import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
 import { getSiteConfig } from '../config/getSiteConfig';
 
 const siteConfig = getSiteConfig(Astro.locals.siteVariant);
+const c = siteConfig;
+const siteHost = new URL(c.url).hostname;
+const addr = c.contact.address;
+const addressLine = `${addr.street}, ${addr.city}, ${addr.state} ${addr.zip}`;
 
 const breadcrumbs = [
   { name: 'Home', href: '/' },
   { name: 'Terms of Service', href: '/terms/' },
 ];
+
+const lastUpdated = 'May 5, 2026';
 ---
 
-<BaseLayout title="Terms of Service">
+<BaseLayout
+  title="Terms of Service"
+  description={`Terms governing use of ${siteHost} and services provided by ${c.business.legalName}.`}
+>
   <Fragment slot="head">
     <BreadcrumbSchema items={breadcrumbs} />
   </Fragment>
   <Breadcrumbs items={breadcrumbs} />
-  <section class="section">
+  <section class="section legal-doc">
     <div class="container container-narrow">
-      <h1>Terms of Service</h1>
-      <p class="text-subtle">Last updated: {new Date().toLocaleDateString()}</p>
-      <p class="text-muted">
-        These terms govern your use of {siteConfig.url}. By accessing the site, you agree
-        to these terms. <strong>This is a starter template — replace with terms reviewed by counsel.</strong>
+      <header class="legal-doc__header">
+        <h1>Terms of Service</h1>
+        <p class="legal-doc__meta">
+          {c.business.legalName} · {siteHost}
+        </p>
+        <p class="text-subtle">Last updated: {lastUpdated}</p>
+      </header>
+
+      <p>
+        These Terms of Service (&quot;Terms&quot;) govern your use of the website located at {siteHost}{' '}
+        and any services provided by {c.business.legalName} (&quot;we,&quot; &quot;us,&quot; or
+        &quot;our&quot;). By accessing our website or booking services with us, you agree to be bound by
+        these Terms. If you do not agree, please do not use our website or services.
       </p>
 
-      <h2>Use of this site</h2>
-      <p class="text-muted">
-        You agree to use this site only for lawful purposes. You may not attempt to gain
-        unauthorized access, transmit malicious code, or scrape content without permission.
+      <h2>1. Services offered</h2>
+      <p>{c.business.name} provides medical aesthetic and wellness services including but not limited to:</p>
+      <ul>
+        <li>Injectable neurotoxins (Botox, Dysport, Jeuveau)</li>
+        <li>Dermal fillers (Juvederm, Restylane, Revanesse Versa)</li>
+        <li>Microneedling and Vampire Facial (PRP)</li>
+        <li>Chemical peels (VI Peel and others)</li>
+        <li>PDO thread lifts</li>
+        <li>PRP and biostimulator treatments (Sculptra)</li>
+        <li>IV therapy and wellness injections</li>
+        <li>Physician-supervised Semaglutide weight loss program</li>
+      </ul>
+      <p>
+        All services are performed by or under the direct supervision of a licensed Registered Nurse.
+        Services are provided by appointment only.
       </p>
 
-      <h2>Service contracts</h2>
-      <p class="text-muted">
-        Submitting a contact form does not create a contract. Service contracts are formed
-        only when {siteConfig.business.legalName} provides a written estimate that you accept,
-        either in writing or by scheduling work.
+      <h2>2. Medical disclaimer</h2>
+      <p class="legal-doc__important">
+        <strong>IMPORTANT — PLEASE READ CAREFULLY.</strong>
+      </p>
+      <p>
+        The content on our website is provided for informational purposes only and does not constitute
+        medical advice, diagnosis, or treatment. Results shown in before and after photos, testimonials,
+        or descriptions are individual and are not guaranteed. Your results will vary based on your anatomy,
+        health history, lifestyle, and other factors outside our control.
+      </p>
+      <p>
+        All treatments carry inherent risks. A thorough consultation will be conducted prior to any
+        treatment to assess your candidacy, review your medical history, discuss risks and benefits, and
+        obtain your informed consent. You must disclose all medications, supplements, allergies, and
+        relevant medical conditions to your provider before treatment.
+      </p>
+      <p>
+        Nothing on this website creates a physician-patient relationship. If you are experiencing a
+        medical emergency, call 911 or go to your nearest emergency room.
       </p>
 
-      <h2>Limitation of liability</h2>
-      <p class="text-muted">
-        To the fullest extent permitted by law, {siteConfig.business.legalName} disclaims all
-        warranties, express or implied, regarding this website. The site is provided "as is."
+      <h2>3. Semaglutide &amp; medical weight loss</h2>
+      <p>
+        The Semaglutide weight loss program offered by {c.business.name} is a physician-supervised
+        program. Participation requires a qualifying consultation ($400) including review of labs and
+        medical history. Not all patients will qualify. Semaglutide is a prescription medication and is
+        dispensed only to qualifying patients under physician oversight.
+      </p>
+      <p>
+        By enrolling in the weight loss program, you acknowledge that: results vary, the program requires
+        lifestyle changes to be effective, and you agree to follow all provider instructions regarding
+        dosing, diet, and follow-up appointments.
       </p>
 
-      <h2>Governing law</h2>
-      <p class="text-muted">
-        These terms are governed by the laws of the State of {siteConfig.contact.address.state}.
-        Any disputes will be resolved in the courts of {siteConfig.contact.address.state}.
+      <h2>4. Appointments &amp; cancellations</h2>
+      <h3>Booking</h3>
+      <p>
+        Appointments are made through our Square booking portal or by calling us directly. By booking an
+        appointment, you agree to arrive on time and to complete any required intake forms truthfully and
+        completely.
+      </p>
+      <h3>Cancellations &amp; no-shows</h3>
+      <p>
+        We ask for at least 24 hours notice for cancellations or rescheduling. Late cancellations or
+        no-shows may result in a cancellation fee or forfeiture of any deposit paid.
+      </p>
+      <h3>Deposits</h3>
+      <p>Certain high-material-cost services require a non-refundable deposit at the time of booking:</p>
+      <ul>
+        <li>PDO Threads: $300 deposit via Zelle to 602-510-3948</li>
+        <li>Sculptra: $400 deposit via Zelle to 602-510-3948</li>
+      </ul>
+      <p>
+        Deposits are applied toward the total treatment cost. They are non-refundable if you cancel
+        within 24 hours of your appointment or fail to appear.
       </p>
 
-      <h2>Contact</h2>
-      <p class="text-muted">
-        Questions? <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a> or {siteConfig.contact.phone}.
+      <h2>5. Payment</h2>
+      <p>
+        Payment is due at the time of service. We accept cash, card (via Square), and Cherry financing.
+        Prices are subject to change. The price quoted at your consultation is the price for that visit.
       </p>
+      <p>
+        Cherry financing is provided by a third party (Cherry Technologies, Inc.) and is subject to their
+        terms and credit approval. We are not responsible for any financing decisions made by Cherry.
+      </p>
+
+      <h2>6. Assumption of risk &amp; informed consent</h2>
+      <p>
+        All aesthetic and medical services carry inherent risks including but not limited to: bruising,
+        swelling, infection, allergic reaction, asymmetry, dissatisfaction with results, and in rare cases,
+        more serious complications. By proceeding with any treatment, you acknowledge that you have been
+        informed of these risks, have had the opportunity to ask questions, and provide your voluntary
+        informed consent.
+      </p>
+      <p>You further acknowledge that no guarantee has been made regarding specific outcomes or results.</p>
+
+      <h2>7. Photography &amp; social media</h2>
+      <p>
+        Before and after photos may be taken for your medical record. Use of your photos for marketing,
+        social media, or website content requires your separate written consent. You may revoke consent at
+        any time in writing. We will remove previously published content where reasonably practicable upon
+        request.
+      </p>
+      <p>
+        By tagging {c.business.name} on social media or submitting testimonials, you grant us a
+        non-exclusive, royalty-free license to share that content (with your identity) on our platforms.
+      </p>
+
+      <h2>8. Website use</h2>
+      <h3>Permitted use</h3>
+      <p>You may use our website for lawful purposes only. You agree not to:</p>
+      <ul>
+        <li>Scrape, copy, or reproduce any website content without written permission</li>
+        <li>Use the website in any way that could harm, disable, or impair our systems</li>
+        <li>Attempt to gain unauthorized access to any part of the website</li>
+        <li>Use the website to transmit spam, malware, or harmful content</li>
+      </ul>
+      <h3>Intellectual property</h3>
+      <p>
+        All content on this website — including text, images, logos, graphics, and before/after photography
+        — is the property of {c.business.legalName} or its licensors and is protected by copyright and
+        other intellectual property laws. You may not reproduce or distribute any content without our
+        prior written consent.
+      </p>
+
+      <h2>9. Third-party services</h2>
+      <p>
+        Our website links to and integrates with third-party services including Square (booking and
+        payment) and Cherry (financing). Your use of these services is governed by their respective terms
+        and privacy policies. We are not responsible for the practices, content, or security of
+        third-party platforms.
+      </p>
+
+      <h2>10. Limitation of liability</h2>
+      <p class="legal-doc__caps">
+        TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, BEAUTIFUL YOU MED SPA, LLC SHALL NOT BE LIABLE
+        FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED
+        TO YOUR USE OF OUR WEBSITE OR SERVICES, INCLUDING BUT NOT LIMITED TO LOST PROFITS, PERSONAL
+        INJURY, OR PROPERTY DAMAGE.
+      </p>
+      <p>
+        Our total liability to you for any claim arising from these Terms or your use of our services
+        shall not exceed the amount you paid to us for the specific service giving rise to the claim.
+      </p>
+
+      <h2>11. Indemnification</h2>
+      <p>
+        You agree to indemnify, defend, and hold harmless {c.business.legalName}, its owner, employees, and
+        agents from any claims, damages, losses, or expenses (including attorney&apos;s fees) arising from:
+        your use of our website or services, your violation of these Terms, your violation of any
+        third-party rights, or any information you provide to us that is false or misleading.
+      </p>
+
+      <h2>12. Governing law</h2>
+      <p>
+        These Terms are governed by and construed in accordance with the laws of the State of Arizona,
+        without regard to conflict of law principles. Any disputes arising under these Terms shall be
+        resolved in the state or federal courts located in Maricopa County, Arizona. You consent to the
+        personal jurisdiction of such courts.
+      </p>
+
+      <h2>13. Changes to these terms</h2>
+      <p>
+        We reserve the right to modify these Terms at any time. Changes will be posted on this page with an
+        updated &quot;Last Updated&quot; date. Your continued use of our website or services after any
+        changes constitutes your acceptance of the revised Terms.
+      </p>
+
+      <h2>14. Contact us</h2>
+      <p>If you have any questions about these Terms, please contact us:</p>
+      <address class="legal-doc__address">
+        <strong>{c.business.legalName}</strong><br />
+        {addressLine}<br />
+        Phone: <a href={`tel:${c.contact.phoneE164}`}>{c.contact.phone}</a><br />
+        Email: <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a><br />
+        Website: <a href={c.url}>{siteHost}</a>
+      </address>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  h1 { margin-bottom: 0.5rem; }
-  h2 { margin-block: 2rem 0.75rem; font-size: 1.375rem; }
-  p { color: var(--color-text-muted); font-size: 1.0625rem; line-height: 1.7; max-width: 64ch; }
-  p + p { margin-top: 1rem; }
+  .legal-doc__header h1 {
+    margin-bottom: 0.35rem;
+  }
+  .legal-doc__meta {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+  .legal-doc h2 {
+    margin-block: 2.25rem 0.75rem;
+    font-size: 1.375rem;
+    font-family: var(--font-display);
+    font-weight: var(--type-weight-display);
+    color: var(--color-text);
+    line-height: 1.25;
+  }
+  .legal-doc h2:first-of-type {
+    margin-top: 1.5rem;
+  }
+  .legal-doc h3 {
+    margin-block: 1.25rem 0.5rem;
+    font-size: 1.0625rem;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-text);
+  }
+  .legal-doc__important {
+    margin-top: 0.5rem;
+  }
+  .legal-doc__caps {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    font-weight: var(--type-weight-body-bold);
+    color: var(--color-text);
+    max-width: 72ch;
+  }
+  .legal-doc p,
+  .legal-doc li {
+    color: var(--color-text-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+  .legal-doc p + p {
+    margin-top: 1rem;
+  }
+  .legal-doc ul {
+    margin: 0.75rem 0 1rem;
+    padding-left: 1.25rem;
+    max-width: 68ch;
+  }
+  .legal-doc li + li {
+    margin-top: 0.35rem;
+  }
+  .legal-doc a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-doc a:hover {
+    color: var(--color-primary-hover);
+  }
+  .legal-doc__address {
+    margin-top: 1rem;
+    font-style: normal;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
 </style>

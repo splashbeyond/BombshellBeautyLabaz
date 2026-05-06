@@ -19,7 +19,7 @@ interface Props {
 const {
   limit,
   title = 'Med Spa Services',
-  description = 'Personalized aesthetic and wellness treatments — performed by a registered nurse, by appointment only.',
+  description = 'Personalized aesthetic and wellness treatments, performed by a registered nurse, by appointment only.',
 } = Astro.props;
 
 const services = limit ? siteConfig.services.slice(0, limit) : siteConfig.services;
