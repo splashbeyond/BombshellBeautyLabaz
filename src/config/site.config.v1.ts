@@ -1534,7 +1534,7 @@ siteConfig.heroCarousel = {
       tagline: 'Precision shape, movement, and a polished finish.',
       bio:
         'A custom women\'s haircut with blowdry, shaped around your hair texture, face shape, and everyday styling routine.',
-      image: '/images/services/haircut-blowdry.png',
+      image: '/images/services/haircut-blowdry-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab haircut blowdry service.',
     },
     {
