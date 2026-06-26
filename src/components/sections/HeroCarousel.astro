@@ -52,7 +52,7 @@ const heroStars = starsHtml(Math.round(c.trust.rating));
 <section
   class="hero-car"
   aria-roledescription="carousel"
-  aria-label="Featured treatments at Beautiful You Med Spa"
+  aria-label={`Featured treatments at ${c.business.name}`}
   data-autoplay-ms={hc.autoplayMs ?? 0}
 >
   <div class="hero-car__viewport">

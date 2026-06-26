@@ -30,7 +30,6 @@ import CTA from '../components/sections/CTA.astro';
 
 import WebsiteSchema from '../components/seo/WebsiteSchema.astro';
 import FAQSchema from '../components/seo/FAQSchema.astro';
-import ReviewSchema from '../components/seo/ReviewSchema.astro';
 
 import { getSiteConfig } from '../config/getSiteConfig';
 
@@ -41,7 +40,6 @@ const siteConfig = getSiteConfig(Astro.locals.siteVariant);
   <Fragment slot="head">
     <WebsiteSchema />
     <FAQSchema items={siteConfig.faq} />
-    <ReviewSchema testimonials={siteConfig.testimonials} />
   </Fragment>
 
   <Hero />

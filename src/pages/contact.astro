@@ -17,6 +17,7 @@ const a = c.contact.address;
 const addressLine = `${a.street}, ${a.city}, ${a.state} ${a.zip}`;
 const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine)}`;
 const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.contact.geo.lng}&z=16&output=embed`;
+const hasPublishedHours = c.contact.hours.length > 0;
 ---
 
 <BaseLayout
@@ -36,8 +37,8 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.cont
           <span class="eyebrow">Book or get in touch</span>
           <h1 class="text-balance">Let's plan your visit.</h1>
           <p class="contact-hero__lede text-muted text-pretty">
-            {c.business.name} is by appointment only. Book directly via our online portal
-            or call us. We'll respond within one business day.
+            {c.business.name} is by appointment only. Call Lisa to request a visit at the
+            Scottsdale studio.
           </p>
 
           <div class="contact-hero__cta">
@@ -74,18 +75,22 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${c.contact.geo.lat},${c.cont
 
             <div class="contact-info__item">
               <span class="contact-info__label">Hours</span>
-              <ul class="contact-info__hours">
-                {c.contact.hours.map((h) => (
-                  <li>
-                    <strong>{h.day}</strong>
-                    <span>
-                      {h.closed
-                        ? 'Closed'
-                        : `${formatTime12h(h.open!)} – ${formatTime12h(h.close!)}`}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {hasPublishedHours ? (
+                <ul class="contact-info__hours">
+                  {c.contact.hours.map((h) => (
+                    <li>
+                      <strong>{h.day}</strong>
+                      <span>
+                        {h.closed
+                          ? 'Closed'
+                          : `${formatTime12h(h.open!)} – ${formatTime12h(h.close!)}`}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="text-muted">By appointment. GBP does not list public hours yet.</p>
+              )}
             </div>
           </div>
         </div>

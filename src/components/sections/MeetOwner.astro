@@ -21,16 +21,16 @@ const primaryExternal = /^https?:\/\//.test(primaryHref);
 ---
 
 <section
-  id="meet-odi"
+  id="meet-bombshell"
   class="meet-owner section section-alt"
-  aria-labelledby="meet-odi-heading"
+  aria-labelledby="meet-bombshell-heading"
 >
   <div class="container">
     <div class="meet-owner__grid">
       <div class="meet-owner__copy">
         <header class="meet-owner__header">
-          <span class="eyebrow">Your injector</span>
-          <h2 id="meet-odi-heading" class="text-balance">Meet {o.preferredName}</h2>
+          <span class="eyebrow">Your beauty lab</span>
+          <h2 id="meet-bombshell-heading" class="text-balance">Meet {o.preferredName}</h2>
           <p class="meet-owner__subtitle">
             {o.fullName}, <span class="meet-owner__creds-inline">{o.credentials}</span>
           </p>
@@ -61,7 +61,7 @@ const primaryExternal = /^https?:\/\//.test(primaryHref);
           {c.trust.certifications.map((cert) => (
             <li>{cert.name}</li>
           ))}
-          <li>Fully insured · Arizona Board of Nursing</li>
+          <li>Final license and insurance details to be confirmed</li>
         </ul>
 
         <div class="meet-owner__actions">
@@ -70,7 +70,7 @@ const primaryExternal = /^https?:\/\//.test(primaryHref);
             class="btn btn-primary btn-large"
             {...(primaryExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           >
-            Book with {o.preferredName}
+            Book Consultation
           </a>
           <a href={`tel:${c.contact.phoneE164}`} class="btn btn-secondary btn-large">
             Call {c.contact.phone}

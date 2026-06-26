@@ -21,6 +21,7 @@ const hours = c.contact.hours.map((h) =>
     ? `${h.day}: Closed`
     : `${h.day}: ${formatTime12h(h.open!)} – ${formatTime12h(h.close!)}`
 );
+const hasPublishedHours = hours.length > 0;
 ---
 
 <footer class="site-footer" aria-label="Site footer">
@@ -56,9 +57,13 @@ const hours = c.contact.hours.map((h) =>
 
       <div class="site-footer__hours">
         <h6>Hours</h6>
-        <ul>
-          {hours.map((line) => <li>{line}</li>)}
-        </ul>
+        {hasPublishedHours ? (
+          <ul>
+            {hours.map((line) => <li>{line}</li>)}
+          </ul>
+        ) : (
+          <p class="text-subtle">By appointment. Call to schedule.</p>
+        )}
         {c.contact.emergencyService && (
           <p class="site-footer__emergency">{c.contact.emergencyText}</p>
         )}

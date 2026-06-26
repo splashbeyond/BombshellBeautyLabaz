@@ -148,7 +148,7 @@ export interface HeroConfig {
   backgroundAlt?: string;
 }
 
-/** Full-bleed homepage hero carousel (optional — Beautiful You v1). */
+/** Full-bleed homepage hero carousel (optional). */
 export interface HeroCarouselSlide {
   slug: string;
   title: string;
@@ -202,7 +202,7 @@ export interface PracticeSpotlightConfig {
 }
 
 export interface OwnerConfig {
-  /** Friendly name patients use, e.g. "Odi" */
+  /** Friendly name clients use, e.g. the owner's first name or team name. */
   preferredName: string;
   fullName: string;
   credentials: string;

@@ -33,8 +33,8 @@ const breadcrumbs = [
   { name: city, href: Astro.url.pathname },
 ];
 
-const title = `Med Spa Serving ${city}, ${c.contact.address.state}`;
-const description = `${c.business.name} welcomes patients from ${city} for Botox, fillers, the Vampire Facial, IV therapy, and more. RN-led, by appointment only.`;
+const title = `Hair Salon Serving ${city}`;
+const description = `${c.business.name} welcomes clients from ${city} for haircuts, color, blonding, and styling by appointment.`;
 
 const primary = c.hero.primaryCta;
 const primaryHref = primary.href === 'tel:' ? `tel:${c.contact.phoneE164}` : primary.href;
@@ -53,9 +53,8 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
       <span class="eyebrow">Now serving {city}</span>
       <h1 class="text-balance">{title}</h1>
       <p class="loc-hero__lede text-muted text-pretty">
-        {c.business.name} welcomes patients from {city} and the wider Phoenix East Valley.
-        Our studio at {c.contact.address.street}, {c.serviceArea.primaryCity} is a quick drive
-        from anywhere in {city}. Treatments are performed by Odilette Trevizo, RN, BSN, by appointment only.
+        {c.business.name} welcomes clients from {city} for appointment-only haircuts, color,
+        blonding, and styling at the Scottsdale studio.
       </p>
       <div class="loc-hero__cta">
         <a
@@ -72,28 +71,23 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
 
   <section class="section">
     <div class="container container-narrow">
-      <h2>Why {city} patients choose {c.business.name}</h2>
+      <h2>Why {city} clients choose {c.business.name}</h2>
       <p class="text-muted">
-        Beautiful You Med Spa is a registered nurse-led aesthetic studio serving {city} and the
-        Phoenix East Valley from our private Tempe location. Founder Odilette Trevizo, RN, BSN holds
-        active certifications from Allergan (Botox, Juvederm), Galderma (Dysport, Restylane), and
-        Revanesse Versa, plus credentials in Platelet-Rich Plasma (PRP), the Vampire Facial, and
-        medical-grade chemical peels.
+        Bombshell Beauty Lab is the rebrand of Lisa Turley At Salon Studios, bringing Lisa's
+        decades of Scottsdale hair experience into a bolder beauty-lab identity.
       </p>
       <p class="text-muted">
-        We see {city} patients for Botox starting at $11/unit, dermal fillers from $650/syringe, the
-        Vampire Facial at $450, VI Peels, IV therapy, and our physician-supervised Semaglutide
-        weight-loss program. Cherry financing is available for larger packages and series. Every
-        visit is by appointment only: no walk-ins, no double-booking, no rotating injectors.
+        Lisa's philosophy centers on balance: flattering color, precision shape, movement,
+        healthy-looking hair, and practical styling guidance clients can use at home.
       </p>
     </div>
   </section>
 
-  <ServicesGrid title={`Services available to ${city} patients`} description={`The full ${c.business.name} menu, performed by an RN at our Tempe studio.`} />
+  <ServicesGrid title={`Services available to ${city} clients`} description={`Haircuts, color, blonding, and styling guidance at ${c.business.name}.`} />
   <Testimonials />
   <CTA
-    title={`${city} patients welcome.`}
-    description={`Book online via our Square portal or call ${c.contact.phone}. Same-week availability is common.`}
+    title={`${city} clients welcome.`}
+    description="Call Lisa to request an appointment at the Scottsdale studio."
   />
 </BaseLayout>
 
