@@ -1102,10 +1102,10 @@ Object.assign(siteConfig, {
     imageAlt: 'Bombshell Beauty Lab logo.',
   },
   seo: {
-    defaultTitle: 'Bombshell Beauty Lab | Scottsdale Hair Salon',
+    defaultTitle: 'Bombshell Beauty Lab',
     titleTemplate: '{title} | {business}',
     description:
-      'Bombshell Beauty Lab is the rebrand of Lisa Turley At Salon Studios, a Scottsdale hair salon for precision cuts, dimensional color, blonding, and styling by appointment.',
+      'Bombshell Beauty Lab is a Scottsdale hair salon for women\'s haircut blowdry, color, glossing, purifying treatments, and styling by appointment.',
     keywords: [
       'bombshell beauty lab',
       'scottsdale hair salon',
@@ -1116,9 +1116,9 @@ Object.assign(siteConfig, {
       'dimensional color',
       'salon studios scottsdale',
     ],
-    ogImage: '/images/logo.png',
-    ogImageWidth: 1020,
-    ogImageHeight: 1020,
+    ogImage: '/images/og-bombshell-hero.jpg',
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
     locale: 'en_US',
     googleSiteVerification: '',
     bingVerification: '',
