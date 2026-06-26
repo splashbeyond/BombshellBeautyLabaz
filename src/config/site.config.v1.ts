@@ -1523,8 +1523,8 @@ siteConfig.heroCarousel = {
   brandLine: 'Bombshell Beauty Lab',
   autoplayMs: 8000,
   introSlide: {
-    image: '/images/logo.png',
-    imageAlt: 'Bombshell Beauty Lab logo.',
+    image: '/images/hero-bombshell-hair.jpg',
+    imageAlt: 'Black and white editorial hair portrait for Bombshell Beauty Lab.',
     tagline: 'Women\'s hair services by appointment. Feel gorgeous. Get noticed.',
   },
   slides: [
