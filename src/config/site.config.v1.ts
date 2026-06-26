@@ -1552,7 +1552,7 @@ siteConfig.heroCarousel = {
       tagline: 'First-time color planned around tone, shine, and balance.',
       bio:
         'Virgin color is planned for hair that has not been previously colored, with tone selection designed around your complexion and desired result.',
-      image: '/images/logo.png',
+      image: '/images/services/virgin-color-carousel.png',
       imageAlt: 'Bombshell Beauty Lab virgin color service.',
     },
     {
@@ -1561,7 +1561,7 @@ siteConfig.heroCarousel = {
       tagline: 'Refresh your regrowth and keep your color looking intentional.',
       bio:
         'Color retouch appointments maintain existing color, cover regrowth, and keep your tone looking polished between larger color services.',
-      image: '/images/services/color-retouch.png',
+      image: '/images/services/color-retouch-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab color retouch service.',
     },
     {
@@ -1570,7 +1570,7 @@ siteConfig.heroCarousel = {
       tagline: 'Shine, tone, and softness in one appointment.',
       bio:
         'Glossing refreshes tone, adds shine, and helps hair look more finished without a major color shift.',
-      image: '/images/services/glossing.png',
+      image: '/images/services/glossing-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab glossing service.',
     },
     {
@@ -1579,7 +1579,7 @@ siteConfig.heroCarousel = {
       tagline: 'Reset buildup so hair feels cleaner, lighter, and brighter.',
       bio:
         'A purifying treatment helps remove buildup and prepare hair for a fresher finish or future color service.',
-      image: '/images/logo.png',
+      image: '/images/services/purifying-treatment-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab purifying treatment service.',
     },
     {
