@@ -1543,7 +1543,7 @@ siteConfig.heroCarousel = {
       tagline: 'A finished look for everyday polish or an event.',
       bio:
         'Blowdry and styling appointments create a polished finish while helping you understand the tools and products that make your hair behave.',
-      image: '/images/logo.png',
+      image: '/images/services/blowdry-styling-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab blowdry and styling service.',
     },
     {
