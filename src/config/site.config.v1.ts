@@ -1588,7 +1588,7 @@ siteConfig.heroCarousel = {
       tagline: 'Custom color work by consultation.',
       bio:
         'Creative color starts with a consultation so Lisa can understand your inspiration, hair history, length, thickness, and desired result.',
-      image: '/images/logo.png',
+      image: '/images/services/creative-color-carousel.jpg',
       imageAlt: 'Bombshell Beauty Lab creative color service.',
     },
   ],
@@ -1663,7 +1663,7 @@ siteConfig.services = [
     longDescription:
       'Virgin color is for hair that has not been previously colored. Lisa plans the tone around your complexion, natural hair, and desired result for a balanced, flattering finish.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/virgin-color-carousel.png',
     priceFrom: '$185',
     features: [
       'Color for previously uncolored hair',
@@ -1752,7 +1752,7 @@ siteConfig.services = [
     longDescription:
       'Purifying treatments help remove buildup and refresh the feel of the hair. This can support shine, movement, and a cleaner canvas for styling or future color.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/purifying-treatment-carousel.jpg',
     priceFrom: '$55',
     features: [
       'Buildup removal',
