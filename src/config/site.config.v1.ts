@@ -1570,7 +1570,7 @@ siteConfig.heroCarousel = {
       tagline: 'Shine, tone, and softness in one appointment.',
       bio:
         'Glossing refreshes tone, adds shine, and helps hair look more finished without a major color shift.',
-      image: '/images/logo.png',
+      image: '/images/services/glossing.png',
       imageAlt: 'Bombshell Beauty Lab glossing service.',
     },
     {
@@ -1724,7 +1724,7 @@ siteConfig.services = [
     longDescription:
       'Glossing helps refresh tone, add shine, and soften the look of hair between larger color appointments. It is a great option when hair needs polish without a major color change.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/glossing.png',
     priceFrom: '$75',
     features: [
       'Tone refresh',
