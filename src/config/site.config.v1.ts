@@ -1635,7 +1635,7 @@ siteConfig.services = [
     longDescription:
       'Blowdry and styling appointments are designed to give hair a finished, confident look while matching the style to your texture, cut, and day-to-day routine.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/blowdry-styling.png',
     priceFrom: '$70',
     features: [
       'Blowdry and styling',
@@ -1780,7 +1780,7 @@ siteConfig.services = [
     longDescription:
       'Creative color is custom color work planned around your inspiration, hair history, current condition, length, thickness, and desired result. Please email or text for a color consultation before booking.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/creative-color.png',
     priceFrom: '$250',
     features: [
       'Starting at $250',
