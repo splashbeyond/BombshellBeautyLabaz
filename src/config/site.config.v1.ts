@@ -1382,8 +1382,8 @@ siteConfig.results = {
         'Shape, texture, and styling should work together so hair feels lighter, fuller, and easier to wear beyond the salon chair.',
     },
     {
-      imageSrc: '/images/logo.png',
-      alt: 'Bombshell Beauty Lab logo.',
+      imageSrc: '/images/results/get-noticed-blonde.png',
+      alt: 'Long blonde dimensional waves styled at Bombshell Beauty Lab.',
       title: 'Get Noticed',
       description:
         'The new Bombshell identity keeps the existing Lisa Turley Salon promise and gives it a bolder, beauty-lab edge.',
