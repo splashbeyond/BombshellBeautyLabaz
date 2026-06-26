@@ -88,16 +88,31 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
           )}
         </div>
 
-        <ul class="service-hero__features">
-          {service.features.map((feature) => (
-            <li>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <path d="M9 12l2 2 4-4M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
-              </svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
+        <aside class="service-hero__side">
+          {service.image && (
+            <figure class="service-hero__media">
+              <img
+                src={service.image}
+                alt={service.name}
+                width="720"
+                height="880"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          )}
+
+          <ul class="service-hero__features">
+            {service.features.map((feature) => (
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <path d="M9 12l2 2 4-4M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </aside>
       </div>
     </div>
   </section>
@@ -186,6 +201,30 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
     color: var(--color-primary);
   }
 
+  .service-hero__side {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-self: start;
+  }
+
+  .service-hero__media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    aspect-ratio: 4 / 5;
+  }
+  .service-hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
   .service-hero__features {
     display: flex;
     flex-direction: column;
@@ -195,7 +234,6 @@ const primaryIsExternal = /^https?:\/\//.test(primaryHref);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
-    align-self: start;
   }
   .service-hero__features li {
     display: flex;

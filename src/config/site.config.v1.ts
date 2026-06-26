@@ -1561,7 +1561,7 @@ siteConfig.heroCarousel = {
       tagline: 'Refresh your regrowth and keep your color looking intentional.',
       bio:
         'Color retouch appointments maintain existing color, cover regrowth, and keep your tone looking polished between larger color services.',
-      image: '/images/logo.png',
+      image: '/images/services/color-retouch.png',
       imageAlt: 'Bombshell Beauty Lab color retouch service.',
     },
     {
@@ -1696,7 +1696,7 @@ siteConfig.services = [
     longDescription:
       'Color retouch appointments refresh regrowth and maintain your existing color plan. This service keeps the overall look intentional between larger color changes.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/color-retouch.png',
     priceFrom: '$150',
     features: [
       'Root or regrowth retouch',
