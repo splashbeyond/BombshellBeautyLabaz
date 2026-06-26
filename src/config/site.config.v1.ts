@@ -1226,7 +1226,7 @@ siteConfig.owner = {
   fullName: 'Lisa Turley',
   credentials: 'Hairstylist',
   roleTitle: 'Founder & Stylist',
-  photoUrl: '/images/lisa-turley.png',
+  photoUrl: '/images/lisa-turley.jpg',
   photoAlt: 'Lisa Turley, founder and stylist at Bombshell Beauty Lab.',
   intro:
     'Old Town Scottsdale native, longtime hairstylist, and the creative force behind the Bombshell Beauty Lab rebrand.',
