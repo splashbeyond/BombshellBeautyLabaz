@@ -1087,8 +1087,8 @@ Object.assign(siteConfig, {
     sectionIntro:
       'Bombshell Beauty Lab welcomes Scottsdale-area clients by appointment at Salon Studios on North Scottsdale Road.',
     studioDetails: [
-      'Google Business Profile lists the studio at 10201 N Scottsdale Rd, Scottsdale, AZ 85253.',
-      'Business hours are not published on GBP yet. Call (602) 326-7799 or use the website/social links to request an appointment.',
+      'Visit the studio at 10201 N Scottsdale Rd, Scottsdale, AZ 85253.',
+      'Appointments are scheduled directly with Lisa. Call (602) 326-7799 to request a visit.',
     ],
   },
   practiceSpotlight: {
@@ -1139,7 +1139,7 @@ Object.assign(siteConfig, {
     rating: 5.0,
     reviewCount: 3,
     license: {
-      number: 'GBP hair salon',
+      number: 'Scottsdale hair salon',
       label: 'Scottsdale hair salon',
     },
     insured: true,
@@ -1161,8 +1161,8 @@ Object.assign(siteConfig, {
       href: 'tel:+16023267799',
     },
     secondaryCta: {
-      label: 'Visit Current Website',
-      href: 'http://www.lisaturley.com/',
+      label: 'Services',
+      href: '/#services',
     },
     backgroundImage: '/images/logo.png',
     backgroundAlt: 'Bombshell Beauty Lab logo.',
@@ -1226,8 +1226,8 @@ siteConfig.owner = {
   fullName: 'Lisa Turley',
   credentials: 'Hairstylist',
   roleTitle: 'Founder & Stylist',
-  photoUrl: '/images/logo.png',
-  photoAlt: 'Bombshell Beauty Lab logo.',
+  photoUrl: '/images/lisa-turley.png',
+  photoAlt: 'Lisa Turley, founder and stylist at Bombshell Beauty Lab.',
   intro:
     'Old Town Scottsdale native, longtime hairstylist, and the creative force behind the Bombshell Beauty Lab rebrand.',
   bioParagraphs: [
@@ -1438,13 +1438,13 @@ siteConfig.testimonials = [
       'I\'m very thankful to have found Lisa and would highly recommend her!',
   },
   {
-    name: 'Facebook Reviews',
+    name: 'Julie Onan',
     city: 'Scottsdale, AZ',
     rating: 5,
-    date: '2026-06-26',
+    date: '2021-06-26',
     service: 'Hair Salon',
     quote:
-      'Lisa Turley Salon is also listed with a 4.8 out of 5 rating on Facebook.',
+      'Lisa and team are amazing. Always very professional, on schedule, and give you undivided attention. Lisa is dedicated to making sure your hair looks great, and maintained between visits with top of the line products and direction.',
   },
 ];
 
@@ -1457,12 +1457,12 @@ siteConfig.faq = [
   {
     question: 'Where is Bombshell Beauty Lab located?',
     answer:
-      'Google Business Profile lists the salon at 10201 N Scottsdale Rd, Scottsdale, AZ 85253.',
+      'Bombshell Beauty Lab is located at 10201 N Scottsdale Rd, Scottsdale, AZ 85253.',
   },
   {
     question: 'How do I book an appointment?',
     answer:
-      'Call (602) 326-7799 to request an appointment. GBP does not currently list public business hours, so visits should be treated as by appointment.',
+      'Call (602) 326-7799 to request an appointment with Lisa.',
   },
   {
     question: 'What services does Bombshell Beauty Lab offer?',
@@ -1478,7 +1478,7 @@ siteConfig.faq = [
 
 siteConfig.nav = [
   { label: 'Services', href: '/services/' },
-  { label: 'Lisa', href: '/#meet-bombshell' },
+  { label: 'Meet Lisa', href: '/#meet-bombshell' },
   { label: 'Reviews', href: '/#testimonials' },
   { label: 'Contact', href: '/contact/' },
 ];
@@ -1498,7 +1498,7 @@ siteConfig.footer = {
     {
       heading: 'Bombshell',
       links: [
-        { label: 'Lisa', href: '/#meet-bombshell' },
+        { label: 'Meet Lisa', href: '/#meet-bombshell' },
         { label: 'Reviews', href: '/#testimonials' },
         { label: 'Contact', href: '/contact/' },
       ],
@@ -1507,7 +1507,7 @@ siteConfig.footer = {
       heading: 'Book',
       links: [
         { label: 'Call to Book', href: 'tel:+16023267799' },
-        { label: 'Current Website', href: 'http://www.lisaturley.com/' },
+        { label: 'Services', href: '/#services' },
         { label: 'Privacy Policy', href: '/privacy/' },
         { label: 'Terms of Service', href: '/terms/' },
       ],
@@ -1826,7 +1826,7 @@ siteConfig.footer = {
     {
       heading: 'Bombshell',
       links: [
-        { label: 'Lisa', href: '/#meet-bombshell' },
+        { label: 'Meet Lisa', href: '/#meet-bombshell' },
         { label: 'Reviews', href: '/#testimonials' },
         { label: 'Contact', href: '/contact/' },
       ],
@@ -1835,7 +1835,7 @@ siteConfig.footer = {
       heading: 'Book',
       links: [
         { label: 'Call to Book', href: 'tel:+16023267799' },
-        { label: 'Current Website', href: 'http://www.lisaturley.com/' },
+        { label: 'Services', href: '/#services' },
         { label: 'Privacy Policy', href: '/privacy/' },
         { label: 'Terms of Service', href: '/terms/' },
       ],
@@ -1867,6 +1867,6 @@ siteConfig.faq = [
   {
     question: 'How do I book an appointment?',
     answer:
-      'Call (602) 326-7799 to request an appointment. GBP does not currently list public business hours, so visits should be treated as by appointment.',
+      'Call (602) 326-7799 to request an appointment with Lisa.',
   },
 ];

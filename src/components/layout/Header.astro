@@ -4,7 +4,7 @@
  *
  * • Brand on the left (text + optional logo).
  * • Nav links in the middle.
- * • Primary CTA on the right (hidden on mobile; phone bar covers it).
+ * • Phone link on the right.
  * • Mobile: hamburger that opens an overlay nav.
  */
 import { getSiteConfig } from '../../config/getSiteConfig';
@@ -61,13 +61,6 @@ const instagramUrl = siteConfig.social.instagram?.trim() || '';
         </svg>
         <span>{siteConfig.contact.phone}</span>
       </a>
-      <a
-        href={siteConfig.hero.primaryCta.href}
-        class="btn btn-primary site-header__cta"
-        {...(siteConfig.hero.primaryCta.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      >
-        {siteConfig.hero.primaryCta.label}
-      </a>
       <button
         class="site-header__menu-btn"
         aria-label="Toggle menu"
@@ -89,13 +82,6 @@ const instagramUrl = siteConfig.social.instagram?.trim() || '';
       {siteConfig.nav.map((link) => (
         <li><a href={link.href}>{link.label}</a></li>
       ))}
-      <li>
-        <a
-          href={siteConfig.hero.primaryCta.href}
-          class="site-header__mobile-cta"
-          {...(siteConfig.hero.primaryCta.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >{siteConfig.hero.primaryCta.label}</a>
-      </li>
     </ul>
   </nav>
 </header>
@@ -218,8 +204,6 @@ const instagramUrl = siteConfig.social.instagram?.trim() || '';
   }
   .site-header__phone-mini:hover { color: var(--color-primary); text-decoration: none; }
 
-  .site-header__cta { display: none; }
-
   .site-header__menu-btn {
     display: inline-flex;
     align-items: center;
@@ -252,21 +236,11 @@ const instagramUrl = siteConfig.social.instagram?.trim() || '';
     border-radius: var(--radius-sm);
   }
   .site-header__mobile-nav a:hover { background-color: var(--color-surface-alt); text-decoration: none; }
-  .site-header__mobile-cta {
-    background-color: var(--color-primary);
-    color: var(--color-primary-fg) !important;
-    text-align: center;
-  }
-  .site-header__mobile-cta:hover { background-color: var(--color-primary-hover); color: var(--color-primary-fg) !important; }
-
   @media (min-width: 768px) {
     .site-header__nav { display: block; }
     .site-header__instagram { display: inline-flex; }
     .site-header__phone-mini { display: inline-flex; }
     .site-header__menu-btn { display: none; }
-  }
-  @media (min-width: 960px) {
-    .site-header__cta { display: inline-flex; }
   }
 </style>
 

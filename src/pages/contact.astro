@@ -22,7 +22,7 @@ const hasPublishedHours = c.contact.hours.length > 0;
 
 <BaseLayout
   title="Contact & Booking"
-  description={`Book your appointment at ${c.business.name} in ${c.serviceArea.primaryCity}, ${c.contact.address.state}. By appointment only. Call ${c.contact.phone} or book online.`}
+  description={`Book your appointment at ${c.business.name} in ${c.serviceArea.primaryCity}, ${c.contact.address.state}. By appointment only. Call ${c.contact.phone}.`}
 >
   <Fragment slot="head">
     <BreadcrumbSchema items={breadcrumbs} />
@@ -89,7 +89,7 @@ const hasPublishedHours = c.contact.hours.length > 0;
                   ))}
                 </ul>
               ) : (
-                <p class="text-muted">By appointment. GBP does not list public hours yet.</p>
+                <p class="text-muted">By appointment. Call to request a visit.</p>
               )}
             </div>
           </div>

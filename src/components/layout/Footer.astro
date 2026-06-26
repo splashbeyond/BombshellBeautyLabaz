@@ -4,7 +4,7 @@
  *
  * Critical SEO elements:
  *   • Wraps the address in <address> (semantic HTML signal)
- *   • NAP exactly matches LocalBusiness schema and GBP
+ *   • NAP exactly matches LocalBusiness schema
  *   • Service hours displayed in human-readable format
  */
 import { getSiteConfig } from '../../config/getSiteConfig';
@@ -85,7 +85,7 @@ const hasPublishedHours = hours.length > 0;
       <h6>Connect</h6>
       <ul class="site-footer__social">
         {c.social.googleBusiness && (
-          <li><a href={c.social.googleBusiness} target="_blank" rel="noopener noreferrer">Google Business</a></li>
+          <li><a href={c.social.googleBusiness} target="_blank" rel="noopener noreferrer">Google Profile</a></li>
         )}
         {c.social.facebook && (
           <li><a href={c.social.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
