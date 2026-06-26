@@ -1372,14 +1372,14 @@ siteConfig.results = {
   eyebrow: 'Philosophy',
   title: 'Balanced hair. Confident clients.',
   lede:
-    'Bombshell Beauty Lab is ready for a future gallery of real cuts, color, blonding, and styling work.',
+    'Bombshell Beauty Lab focuses on flattering cuts, color, blonding, and styling work that feels polished in real life.',
   items: [
     {
-      imageSrc: '/images/logo.png',
-      alt: 'Bombshell Beauty Lab logo.',
-      title: 'Feel Gorgeous',
+      imageSrc: '/images/results/before-after-blonde-style.png',
+      alt: 'Before and after blonde haircut and styling transformation.',
+      title: 'Real Movement',
       description:
-        'Lisa believes your hair is the accessory you never take off, so the shape, color, and styling plan should make you feel confident every day.',
+        'Shape, texture, and styling should work together so hair feels lighter, fuller, and easier to wear beyond the salon chair.',
     },
     {
       imageSrc: '/images/logo.png',
