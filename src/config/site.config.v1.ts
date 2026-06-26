@@ -1534,7 +1534,7 @@ siteConfig.heroCarousel = {
       tagline: 'Precision shape, movement, and a polished finish.',
       bio:
         'A custom women\'s haircut with blowdry, shaped around your hair texture, face shape, and everyday styling routine.',
-      image: '/images/logo.png',
+      image: '/images/services/haircut-blowdry.png',
       imageAlt: 'Bombshell Beauty Lab haircut blowdry service.',
     },
     {
@@ -1602,7 +1602,7 @@ siteConfig.services = [
     longDescription:
       'Haircut blowdry appointments at Bombshell Beauty Lab are shaped around balance, movement, and everyday wearability. Lisa focuses on creating a cut that flatters your features, works with your texture, and finishes with a polished blowdry.',
     icon: 'star',
-    image: '/images/logo.png',
+    image: '/images/services/haircut-blowdry.png',
     priceFrom: '$150',
     features: [
       'Women\'s haircut and blowdry',
